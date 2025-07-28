@@ -129,12 +129,14 @@ export const AboutSection = () => {
                     {/* Hover effect */}
                     <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                     <p className="text-gray-300 leading-relaxed relative z-10">
-                      Hi! I'm Aldri, an IT Support Engineer with over 5 years of
-                      experience in technical support, network administration,
-                      and system troubleshooting. Recently, I've expanded my
-                      skill set into web development, creating responsive,
-                      user-friendly web applications using technologies like
-                      React, Node.js, Express, SQL Server, and Tailwind CSS.
+                      Hi, I’m Aldri — IT Support Engineer turned full-stack
+                      debugger of chaos. With over 5 years of uptime in tech
+                      support, network admin, and system troubleshooting, I’ve
+                      been the go-to patch for crashed systems and lost
+                      connections.
+                      <br />
+                      <br />
+                      Recently, I’ve recompiled my skill set and booted into web development mode — deploying responsive, user-friendly web apps built with React, Node.js, Express, SQL Server, and styled with the elegance of Tailwind CSS.
                     </p>
                   </div>
                   {/* Second paragraph */}
@@ -142,13 +144,16 @@ export const AboutSection = () => {
                     {/* Hover effect */}
                     <div className="absolute inset-0 bg-gradient-to-r from-violet-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                     <p className="text-gray-300 leading-relaxed relative z-10">
-                      I'm passionate about leveraging technology to solve
-                      real-world problems — whether it's maintaining seamless IT
-                      operations or developing custom web tools that enhance
-                      productivity and streamline workflows. My dual expertise
-                      in IT support and web development allows me to bridge the
-                      gap between technical requirements and user-friendly
-                      implementations.
+                      I’m passionate about using tech to debug real-world
+                      inefficiencies — whether I’m keeping the IT backbone
+                      stable or scripting custom web solutions that optimize
+                      workflows. With dual-core processing power in both IT
+                      support and web dev, I specialize in translating tech-speak
+                      into user-friendly UX — bridging backend logic with
+                      front-end joy.
+                      <br />
+                      <br />
+                      Let’s connect — no firewall between us.
                     </p>
                   </div>
                   {/* Quote section */}
