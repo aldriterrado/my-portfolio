@@ -166,7 +166,7 @@ export const ProjectsSection = () => {
     .slice(0, 3)
   return (
     <section
-      id="projects"
+      id="my work"
       className="py-24 bg-gradient-to-b from-gray-900 to-gray-800 relative overflow-hidden"
     >
       {/* Background elements */}
