@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useState } from 'react'
 import html from '../assets/photo/techstack/html.png'
 import tailwindcss from '../assets/photo/techstack/tailwindcss.png'
 import css from '../assets/photo/techstack/css.png'
