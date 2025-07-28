@@ -99,7 +99,7 @@ export const ProjectsSection = () => {
       id: 1,
       title: 'Programming with Javascript by Meta',
       issuer: 'Coursera',
-      date: 'July 2026',
+      date: 'July 2025',
       image:
         'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
       credentialLink: 'https://coursera.org/share/ae83984ff3f12fab94c8504a143c3a6a',
@@ -109,7 +109,7 @@ export const ProjectsSection = () => {
       id: 2,
       title: 'Frontend Development by Meta',
       issuer: 'Coursera',
-      date: 'July 2026',
+      date: 'July 2025',
       image:
         frontend,
       credentialLink:
@@ -120,7 +120,7 @@ export const ProjectsSection = () => {
       id: 3,
       title: 'Software Engineering by IBM',
       issuer: 'Coursera',
-      date: 'July 2026',
+      date: 'July 2025',
       image:
         'https://images.unsplash.com/photo-1593720213428-28a5b9e94613?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80',
       credentialLink: 'https://coursera.org/share/677977416c78f6ed4ff0207230554a35',
