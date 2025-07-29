@@ -6,8 +6,6 @@ import {
   BookOpenIcon,
   ArrowRightIcon,
   CodeIcon,
-  ZapIcon,
-  TargetIcon,
 } from 'lucide-react'
 import thelinq from '../assets/photo/project/thelinq.png'
 import reqtracker from '../assets/photo/project/rftracker.png'
