@@ -8,8 +8,6 @@ import {
   CodeIcon,
   MonitorIcon,
   ServerIcon,
-  ZapIcon,
-  TargetIcon,
 } from 'lucide-react'
 import Aldri from '../assets/photo/hero/Aldri.jpg'
 
