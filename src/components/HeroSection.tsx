@@ -166,10 +166,8 @@ export const HeroSection = () => {
                 transitionDelay: '400ms',
               }}
             >
-              I create exceptional digital experiences with clean code and
-              modern design. Specialized in building responsive web applications
-              with <span className="text-blue-400 font-medium">cutting-edge technologies</span> and 
-              <span className="text-purple-400 font-medium"> innovative solutions</span>.
+              Started in IT support, now I’m building<span className="text-blue-400 font-medium"> cool, responsive web apps</span> — 
+              <span className="text-purple-400 font-medium"> one line of code at a time.</span>.
             </p>
 
             {/* Enhanced tech icons */}
