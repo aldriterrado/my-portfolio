@@ -103,18 +103,13 @@ export function Experience() {
                   href={credential.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative flex flex-col overflow-hidden rounded-2xl border border-line bg-surface p-5 pt-6 transition-[border-color,background-color] duration-300 hover:border-line-strong hover:bg-surface-hover"
+                  className="card-surface group flex flex-col rounded-[20px] border border-line bg-surface p-5 transition-[border-color,background-color,box-shadow] duration-300 hover:border-line-strong hover:bg-surface-hover hover:shadow-[var(--card-shadow)]"
                 >
-                  <span
-                    aria-hidden="true"
-                    className="absolute inset-x-0 top-0 h-[2px] bg-primary-text"
-                  />
-
                   <div className="flex items-center justify-between gap-4">
-                    <p className="font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
+                    <p className="min-w-0 truncate font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
                       {issuer}
                     </p>
-                    <p className="font-mono text-[11px] text-muted tabular-nums">
+                    <p className="shrink-0 rounded-full border border-line bg-base/60 px-2 py-0.5 font-mono text-[11px] text-muted tabular-nums">
                       {credential.year}
                     </p>
                   </div>
@@ -124,15 +119,22 @@ export function Experience() {
                   </h4>
 
                   {platform ? (
-                    <p className="mt-1.5 text-[13px] text-secondary-text">
+                    <p className="mt-1.5 text-[13px] text-muted">
                       Issued via {platform}
                     </p>
                   ) : null}
 
-                  <span className="mt-6 mt-auto flex items-center justify-between border-t border-line pt-3 text-[13px] text-secondary-text transition-colors duration-300 group-hover:text-primary-text">
-                    View credential
-                    <span aria-hidden="true">↗</span>
-                  </span>
+                  <div className="mt-auto pt-6">
+                    <span className="flex items-center justify-between gap-3 border-t border-hairline pt-3.5 text-[13px] text-secondary-text transition-colors duration-300 group-hover:text-primary-text">
+                      View credential
+                      <span
+                        aria-hidden="true"
+                        className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                      >
+                        ↗
+                      </span>
+                    </span>
+                  </div>
                 </a>
               )
             })}

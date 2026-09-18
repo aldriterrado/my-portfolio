@@ -72,23 +72,16 @@ export function Contact() {
         <Reveal>
           <SectionLabel>Contact</SectionLabel>
 
-          <div className="relative overflow-hidden rounded-2xl border border-line bg-surface p-7 pt-8 md:p-10 md:pt-11 lg:p-12">
-            <span
-              aria-hidden="true"
-              className="absolute inset-x-0 top-0 h-[2px] bg-primary-text"
-            />
-
+          <div className="card-surface rounded-[24px] border border-line bg-surface p-7 md:p-10 lg:p-12">
             <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,15rem)] md:gap-10">
               <div>
-                <div className="flex items-center gap-2.5">
+                <span className="inline-flex w-fit items-center gap-2 rounded-full border border-line bg-base/60 px-2.5 py-1 font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
                   <span
                     aria-hidden="true"
-                    className="h-1.5 w-1.5 rounded-full bg-primary-text"
+                    className="size-1.5 rounded-full bg-accent shadow-[0_0_0_3px] shadow-accent/15"
                   />
-                  <p className="font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
-                    {site.contact.status}
-                  </p>
-                </div>
+                  {site.contact.status}
+                </span>
 
                 <h2 className="mt-6 max-w-xl text-[clamp(1.9rem,3.6vw,2.75rem)] leading-[1.12] font-semibold tracking-[-0.035em] text-primary-text">
                   {site.contact.headline}
@@ -97,7 +90,7 @@ export function Contact() {
                   {site.contact.body}
                 </p>
 
-                <div className="mt-8 inline-flex max-w-full items-stretch overflow-hidden rounded-xl border border-line bg-base/60">
+                <div className="mt-8 inline-flex max-w-full items-stretch overflow-hidden rounded-[14px] border border-line bg-base/60">
                   <a
                     href={`mailto:${site.email}`}
                     className="group flex min-w-0 items-center gap-2.5 px-4 py-3 transition-colors duration-200 hover:bg-surface-hover"
@@ -136,11 +129,11 @@ export function Contact() {
                 </p>
               </div>
 
-              <dl className="flex h-full flex-col md:border-l md:border-line md:pl-10">
+              <dl className="flex h-full flex-col md:border-l md:border-hairline md:pl-10">
                 {channels.map((channel) => (
                   <div
                     key={channel.label}
-                    className="border-b border-line last:border-0 md:flex-1"
+                    className="border-b border-hairline last:border-0 md:flex-1"
                   >
                     <a
                       href={channel.href}
@@ -167,7 +160,7 @@ export function Contact() {
               </dl>
             </div>
 
-            <div className="mt-10 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-line pt-6">
+            <div className="mt-10 flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-hairline pt-6">
               <p className="font-mono text-[12px] text-muted">
                 {site.location} · GMT+8
               </p>

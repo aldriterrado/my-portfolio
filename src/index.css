@@ -141,6 +141,31 @@ body {
   box-shadow: var(--card-shadow);
 }
 
+.card-surface {
+  position: relative;
+  isolation: isolate;
+}
+
+.card-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      120% 85% at 0% 0%,
+      color-mix(in srgb, var(--color-primary-text) 6%, transparent) 0%,
+      transparent 58%
+    ),
+    radial-gradient(
+      85% 70% at 100% 100%,
+      color-mix(in srgb, var(--color-accent) 8%, transparent) 0%,
+      transparent 62%
+    );
+}
+
 .section {
   isolation: isolate;
   padding-block: 48px;
@@ -229,7 +254,6 @@ body {
 
 .deck-card.is-side:hover,
 .deck-card.is-side:focus-within {
-  z-index: 32;
   opacity: 1;
 }
 
@@ -245,7 +269,7 @@ body {
 
 .deck-card.is-side .deck-card-face:hover,
 .deck-card.is-side .deck-card-face:focus-visible {
-  transform: translateX(calc(var(--i) * 12px)) scale(1.07);
+  transform: scale(1.045);
 }
 
 @media (min-width: 768px) {

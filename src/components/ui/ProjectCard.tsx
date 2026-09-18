@@ -20,65 +20,60 @@ export function ProjectCard({
   const chips = project.stack.slice(0, 3)
 
   return (
-    <article className="relative overflow-hidden rounded-2xl border border-line bg-surface transition-[border-color,background-color] duration-300 group-hover:border-line-strong group-hover:bg-surface-hover">
-      <span
-        aria-hidden="true"
-        className="absolute inset-x-0 top-0 h-[2px] bg-primary-text"
-      />
-
-      <div className="p-5 pt-6">
-        <div className="flex items-center justify-between gap-3">
-          <p className="font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
-            {project.kind}
-          </p>
-          <p className="font-mono text-[11px] tabular-nums text-muted">
-            {project.year}
-          </p>
-        </div>
-
-        <div className="mt-5 flex items-start gap-3.5">
-          <div className="flex size-11 shrink-0 items-center justify-center rounded-lg border border-line bg-base font-mono text-[12px] font-semibold tracking-[0.06em] text-primary-text">
-            {project.monogram}
-          </div>
-          <div className="min-w-0">
-            <h3 className="text-[18px] leading-[1.2] font-semibold tracking-[-0.03em] text-primary-text md:text-[20px]">
-              {project.title}
-            </h3>
-            <p className="mt-1 text-[13px] leading-[1.45] text-secondary-text">
-              {project.subtitle}
-            </p>
-          </div>
-        </div>
-
-        <p className="mt-4 line-clamp-2 text-[13px] leading-[1.55] text-secondary-text">
-          {project.summary}
+    <article className="card-surface rounded-[20px] border border-line bg-surface p-5 transition-[border-color,background-color,box-shadow] duration-300 group-hover:border-line-strong group-hover:bg-surface-hover group-hover:shadow-[var(--card-shadow)]">
+      <div className="flex items-center gap-3">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-xl border border-line bg-base font-mono text-[12px] font-semibold tracking-[0.06em] text-primary-text">
+          {project.monogram}
+        </span>
+        <p className="min-w-0 truncate font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
+          {project.kind}
         </p>
+        <p className="ml-auto font-mono text-[11px] tabular-nums text-muted">
+          {project.year}
+        </p>
+      </div>
 
-        <div className="mt-4 flex flex-wrap gap-1.5">
-          {chips.map((item) => (
-            <span
-              key={item}
-              className="rounded-md border border-line px-2 py-1 font-mono text-[11px] text-secondary-text"
-            >
-              {item}
-            </span>
-          ))}
-        </div>
+      <h3 className="mt-4 text-[18px] leading-[1.2] font-semibold tracking-[-0.03em] text-primary-text md:text-[20px]">
+        {project.title}
+      </h3>
+      <p className="mt-1.5 text-[13px] leading-[1.45] text-secondary-text">
+        {project.subtitle}
+      </p>
 
-        <div className="mt-5 flex items-center justify-between border-t border-line pt-3">
+      <p className="mt-3 line-clamp-2 text-[13px] leading-[1.55] text-muted">
+        {project.summary}
+      </p>
+
+      <div className="mt-4 flex flex-wrap gap-1.5">
+        {chips.map((item) => (
           <span
-            className={`text-[13px] transition-colors duration-300 ${
-              active
-                ? "text-primary-text group-hover:text-accent"
-                : "text-secondary-text group-hover:text-primary-text"
-            }`}
+            key={item}
+            className="rounded-full border border-line bg-base/60 px-2.5 py-1 font-mono text-[11px] text-secondary-text"
           >
-            View case study <span aria-hidden="true">→</span>
+            {item}
           </span>
-          <span className="font-mono text-[11px] text-muted tabular-nums">
-            {padIndex(index + 1)} / {padIndex(total)}
+        ))}
+      </div>
+
+      <div className="mt-5 flex items-center justify-between border-t border-hairline pt-3.5">
+        <span
+          className={`flex items-center gap-1.5 text-[13px] transition-colors duration-300 ${
+            active
+              ? "text-primary-text group-hover:text-accent"
+              : "text-secondary-text group-hover:text-primary-text"
+          }`}
+        >
+          View case study
+          <span
+            aria-hidden="true"
+            className="transition-transform duration-300 group-hover:translate-x-0.5"
+          >
+            →
           </span>
-        </div>
+        </span>
+        <span className="font-mono text-[11px] text-muted tabular-nums">
+          {padIndex(index + 1)} / {padIndex(total)}
+        </span>
       </div>
     </article>
   )

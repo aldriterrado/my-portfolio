@@ -120,7 +120,7 @@ export function ProjectDeck({ projects }: ProjectDeckProps) {
               {isActive ? (
                 <Link
                   to={`/projects/${project.slug}`}
-                  className="deck-card-face group block rounded-2xl"
+                  className="deck-card-face group block rounded-[20px]"
                   onClick={onActiveClick}
                 >
                   <ProjectCard
@@ -133,7 +133,7 @@ export function ProjectDeck({ projects }: ProjectDeckProps) {
               ) : (
                 <button
                   type="button"
-                  className="deck-card-face group block w-full rounded-2xl text-left"
+                  className="deck-card-face group block w-full rounded-[20px] text-left"
                   aria-label={`Show ${project.title}`}
                   onClick={() => {
                     if (didSwipe.current) return

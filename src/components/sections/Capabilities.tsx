@@ -52,21 +52,14 @@ export function Capabilities() {
           <Reveal className="flex h-full flex-col">
             <SectionLabel>Currently Exploring</SectionLabel>
 
-            <div className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface p-6 pt-7">
-              <span
-                aria-hidden="true"
-                className="absolute inset-x-0 top-0 h-[2px] bg-primary-text"
-              />
-
-              <div className="flex items-center justify-between gap-3">
-                <p className="font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
-                  In progress
-                </p>
+            <div className="card-surface flex h-full flex-col rounded-[20px] border border-line bg-surface p-6">
+              <span className="inline-flex w-fit items-center gap-2 rounded-full border border-line bg-base/60 px-2.5 py-1 font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
                 <span
                   aria-hidden="true"
-                  className="h-1.5 w-1.5 rounded-full bg-primary-text"
+                  className="size-1.5 rounded-full bg-accent shadow-[0_0_0_3px] shadow-accent/15"
                 />
-              </div>
+                In progress
+              </span>
 
               <h2 className="mt-5 text-[22px] leading-tight font-semibold tracking-[-0.02em] text-primary-text">
                 {site.exploring.title}
@@ -75,13 +68,15 @@ export function Capabilities() {
                 {site.exploring.body}
               </p>
 
-              <ul className="mt-7 space-y-4 border-t border-line pt-6">
+              <ul className="mt-7 space-y-4 border-t border-hairline pt-6">
                 {site.exploring.track.map((item) => (
                   <li key={item.title} className="flex gap-3.5">
                     <span
                       aria-hidden="true"
-                      className={`mt-[7px] h-1.5 w-1.5 shrink-0 rounded-full ${
-                        item.active ? "bg-primary-text" : "border border-line"
+                      className={`mt-[7px] size-1.5 shrink-0 rounded-full ${
+                        item.active
+                          ? "bg-accent shadow-[0_0_0_3px] shadow-accent/15"
+                          : "border border-line-strong"
                       }`}
                     />
                     <div>
@@ -96,19 +91,21 @@ export function Capabilities() {
                 ))}
               </ul>
 
-              <div className="mt-auto border-t border-line pt-5">
-                <p className="font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
-                  Builds on
-                </p>
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {site.exploring.builtOn.map((id) => (
-                    <span
-                      key={id}
-                      className="rounded-md border border-line px-2 py-1 font-mono text-[11px] text-secondary-text"
-                    >
-                      {capabilityTitles.get(id) ?? id}
-                    </span>
-                  ))}
+              <div className="mt-auto pt-7">
+                <div className="border-t border-hairline pt-5">
+                  <p className="font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
+                    Builds on
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {site.exploring.builtOn.map((id) => (
+                      <span
+                        key={id}
+                        className="rounded-full border border-line bg-base/60 px-2.5 py-1 font-mono text-[11px] text-secondary-text"
+                      >
+                        {capabilityTitles.get(id) ?? id}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
