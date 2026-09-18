@@ -13,6 +13,7 @@ export type Project = {
   stack: string[]
   image: string | null
   imageHint: string
+  imageCaption?: string
   year: string
   kind: string
   monogram: string
@@ -107,79 +108,99 @@ export const projects: Project[] = [
   },
   {
     slug: "training-management",
-    title: "Training Management System",
-    subtitle: "Employee training, credentials and renewals",
+    title: "BBR TrainLog",
+    subtitle:
+      "Employee training, qualifications, and study bonds in one connected system",
     summary:
-      "A system for registration, scheduling, qualification management, credential tracking, expiry and renewals — so training status is visible before it becomes a compliance problem.",
+      "A connected system for employee training across BBR organizations, linking registrations, schedules, costs, credentials, renewals, and study bonds.",
     role: "Full-stack Development, Product Design",
-    platform: "Internal Enterprise System",
-    stack: ["React", "TypeScript", "Node.js", "SQL Server"],
+    platform: "Internal Enterprise Web Application",
+    stack: [
+      "React",
+      "TypeScript",
+      "Supabase",
+      "PostgreSQL",
+      "Tailwind CSS",
+      "Node.js",
+    ],
     image: null,
-    imageHint: "training-management.png",
-    year: "2024",
+    imageHint: "bbr-trainlog.png",
+    imageCaption: "BBR TrainLog — employee training and qualification management.",
+    year: "2025",
     kind: "Internal Platform",
-    monogram: "TMS",
+    monogram: "TL",
     accent: "#6ee7b7",
     featured: true,
     caseStudy: {
       summary:
-        "The Training Management System tracks employee training from registration through qualification, expiry and renewal, giving operations a current view of who is qualified to work.",
+        "BBR TrainLog centralizes employee training across BBR organizations. Registrations, schedules, costs, credentials, renewals, and study bonds stay connected, so training and HR administrators can see activity, qualification validity, and outstanding work in one place.",
       sections: [
         {
           title: "Overview",
           body: [
-            "Training records were spread across attendance sheets, certificates and informal reminders. The system brings registration, scheduling, qualifications and renewals into one workflow.",
-            "The product is used by operations and training staff who need to know who is current, who is expiring, and what still needs to be scheduled.",
+            "BBR TrainLog brings training administration into one structured workflow, from the first registration and schedule through credential tracking and renewal.",
+            "It is built for training, HR, and system administrators, connecting employee records, training costs, supporting documents, and study-bond commitments across subsidiaries and departments.",
+            "The aim is to make training information easier to maintain, verify, and act on — while keeping its history intact.",
           ],
         },
         {
           title: "Problem",
           body: [
-            "Expiry dates were easy to miss. Credentials lived in files, and there was no reliable way to see upcoming renewals or confirm that a person was still qualified for a role.",
-            "Registration and scheduling were also disconnected from the credential itself, so completing a course did not automatically update the qualification record.",
+            "Training information lived in spreadsheets, certificates, attendance records, and manual reminders. Routine questions — who holds a valid qualification, what needs renewal, how much training costs — meant checking several sources.",
+            "Registrations, credentials, funding, and study bonds also had to stay related. Without those links, a completed course could be mistaken for a recorded qualification, and later changes to people or policies could hide the original context.",
+            "The work was to create a reliable operational record without flattening the detail behind it.",
           ],
         },
         {
           title: "Solution",
           body: [
-            "The system treats a credential as a living record: registration, attendance, qualification, expiry and renewal are stages of the same object.",
-            "Staff can schedule training, track completion and see who needs to renew before the date becomes a problem.",
+            "I designed BBR TrainLog around connected training records. Each registration brings together the employee, course, schedule, payment, funding, and study-bond decision through a guided workflow.",
+            "Administrators record credentials against eligible completed training, attach certificates or cards, and monitor validity. Renewal registrations point back to earlier training without overwriting previous credentials.",
+            "A shared calendar, Qualification Matrix, dashboards, and reports make those records usable for daily planning and review.",
           ],
         },
         {
           title: "Architecture",
           body: [
-            "A React and TypeScript client sits on a Node.js API with SQL Server as the source of truth for people, courses, sessions and credentials.",
-            "Expiry and renewal logic is derived from stored dates rather than manual flags, which keeps the status view consistent as records change.",
+            "BBR TrainLog is a React and TypeScript frontend on Supabase and PostgreSQL, organized as a modular monolith.",
+            "Microsoft 365 sign-in establishes identity, and provisioned application roles control access. Database permissions, Row Level Security, and trusted PostgreSQL functions enforce authorization and business rules.",
+            "A dedicated Node.js file gateway handles authenticated access to documents stored on Synology. Credential validity is calculated from recorded dates, while renewal progress is derived from linked registrations and credentials.",
           ],
         },
         {
           title: "Key Features",
           body: [
-            "Employee registration and session scheduling for required training.",
-            "Qualification records tied to completion, not just attendance.",
-            "Expiry tracking and renewal visibility so upcoming lapses are visible in advance.",
+            "Guided training registration: resumable drafts that connect course details, schedules, payment, funding, and study-bond decisions.",
+            "Credential and renewal tracking: manage certificates and cards, review expiry, and start linked renewal registrations.",
+            "Qualification visibility: find employees with current recorded qualifications by course, category, subsidiary, or department.",
+            "Training calendar: review scheduled training on a shared calendar, with access appropriate to each role.",
+            "Study-bond management: handle individual or combined training commitments with versioned policies and retained agreement history.",
+            "Historical record imports: validate Excel and CSV files, review missing information and possible duplicates, and keep import provenance.",
+            "Dashboards and reporting: review training hours, costs, credential expiry, funding, and study bonds, with exports for further analysis.",
           ],
         },
         {
           title: "Design Decisions",
           body: [
-            "The interface prioritizes status and dates over charts. The useful question is whether someone is current, due, or overdue.",
-            "Training is presented as an operational process, not a learning-management marketplace.",
+            "The interface leads with what administrators need to act on: employee, course, status, dates, costs, and supporting documents. Guided forms break complex registrations into steps, while searchable tables and focused detail views support everyday review.",
+            "Completing a course and issuing a credential remain separate. Completion makes training eligible for a company credential; an administrator still records the qualification and its validity.",
+            "Historical context is kept through snapshots, controlled amendments, and versioned bond policies, so current employee details or later policy changes do not silently rewrite earlier records.",
           ],
         },
         {
           title: "Challenges",
           body: [
-            "Historical records were incomplete. The system had to accept partial imports without pretending that missing dates were valid qualifications.",
-            "Renewal rules also vary by course. The data model needed enough flexibility for different validity periods without becoming a rules engine.",
+            "Historical data was often incomplete. Imports had to accept usable records while keeping missing dates, costs, and agreement terms visible. Unknown values stay unknown — they are not turned into zero amounts or assumed qualifications.",
+            "Renewals introduced another distinction: an expired credential, an active renewal registration, and a newly issued credential are different states. Connecting them without overwriting earlier records required clear lifecycle rules.",
+            "Study bonds added policy changes and shared commitments across multiple registrations. Versioned policies and retained membership history keep those relationships traceable.",
           ],
         },
         {
           title: "Outcome",
           body: [
-            "Training status became queryable. Operations can see who is qualified and what is expiring, instead of reconstructing it from files.",
-            "The work also sharpened how later systems handle time-based operational state — current, due, expired — as first-class information.",
+            "BBR TrainLog is a central workspace for training administration — a place to manage recorded qualifications, costs, and commitments together.",
+            "Administrators can follow a registration through its schedule, financial details, credential, and renewal history. Historical imports bring older records into that workflow while keeping gaps and uncertainties visible.",
+            "The project also sharpened how I approach enterprise software: turning operational rules into usable workflows, enforcing the critical ones in the database, and preserving the context needed to understand past decisions.",
           ],
         },
       ],

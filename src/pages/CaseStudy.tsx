@@ -77,14 +77,22 @@ export function CaseStudy() {
           </div>
         </dl>
 
-        <div className="mt-10">
+        <figure className="mt-10">
           <Screenshot
             src={project.image}
-            alt={`${project.title} application screenshot`}
+            alt={
+              project.imageCaption ??
+              `${project.title} application screenshot`
+            }
             hint={project.imageHint}
             priority
           />
-        </div>
+          {project.image && project.imageCaption ? (
+            <figcaption className="mt-3 font-mono text-[13px] text-muted">
+              {project.imageCaption}
+            </figcaption>
+          ) : null}
+        </figure>
 
         <div className="mt-16 max-w-3xl space-y-14">
           {project.caseStudy.sections.map((section, index) => (
