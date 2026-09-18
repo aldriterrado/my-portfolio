@@ -209,6 +209,119 @@ export const projects: Project[] = [
     },
   },
   {
+    slug: "virtual-business-card",
+    title: "BBR Virtual Business Card",
+    subtitle:
+      "Digital business cards, approvals, and contact sharing in one managed system",
+    summary:
+      "A centrally managed digital identity that employees can share through a link or QR code, with approval, activation, and card lifecycle control.",
+    role: "Full-stack Development, Product Design, Deployment & Operations",
+    platform: "Internal Employee & Public-Facing Web Application",
+    stack: [
+      "React",
+      "TypeScript",
+      "Supabase",
+      "PostgreSQL",
+      "Tailwind CSS",
+      "Synology NAS",
+      "Apache",
+    ],
+    image: null,
+    imageHint: "bbr-vcard.png",
+    imageCaption:
+      "BBR Virtual Business Card — managed digital contact sharing for employees.",
+    year: "2025",
+    kind: "Internal Platform",
+    monogram: "VC",
+    accent: "#fb923c",
+    featured: true,
+    caseStudy: {
+      summary:
+        "BBR Virtual Business Card gives employees a centrally managed digital identity that can be shared through a link or QR code. Employee details move through an approval workflow before a card is activated, while administrators retain control over published information, access, and card lifecycle.",
+      sections: [
+        {
+          title: "Overview",
+          body: [
+            "BBR Virtual Business Card was created to reduce reliance on traditional printed business cards and provide employees with a digital contact profile that can be updated and shared more easily.",
+            "Each employee receives a unique business-card page that can be opened through a direct link or QR code. Visitors can view the employee's professional contact details and save them directly to their contacts.",
+            "Behind the public card is an internal workflow for requesting, reviewing, approving, activating, updating, and deactivating cards.",
+            "The goal was to make business-card management easier for employees while keeping published company information controlled and consistent.",
+          ],
+        },
+        {
+          title: "Problem",
+          body: [
+            "Traditional printed business cards become outdated whenever an employee changes a mobile number, designation, department, or other contact information. Updating those details normally means producing another physical card.",
+            "There was also an administrative problem behind the card itself. Before employee information could be published, requests needed to be reviewed by the appropriate people. Different employees could require different approval paths, and administrators needed a reliable way to know whether a card was still pending, approved, rejected, active, or no longer valid.",
+            "Employee departures introduced another requirement: an old shared business-card link should not continue exposing an inactive employee's company contact profile.",
+            "The challenge was therefore not simply creating a digital card, but managing its entire lifecycle.",
+          ],
+        },
+        {
+          title: "Solution",
+          body: [
+            "I designed the system around an employee request and approval workflow.",
+            "Employees start from a dedicated request page and enter their Employee ID. Existing employee information is retrieved where available, while the employee provides card-specific details such as their photo, mobile number, and direct line.",
+            "The request is then routed through the appropriate approval process. Department approvers can approve or reject requests directly from secure email actions without needing access to the administration dashboard. Approved requests continue through the remaining review stages before the System Administrator activates the card.",
+            "Once activated, the employee receives their digital-card link and QR code. The published card can then be shared digitally while administrators continue to manage its information and status centrally.",
+          ],
+        },
+        {
+          title: "Architecture",
+          body: [
+            "The application is built with React and TypeScript, with Tailwind CSS providing the interface layer.",
+            "The frontend is deployed through an on-premise Synology NAS running Apache, while Supabase provides the application backend services, including PostgreSQL, authentication, APIs, and storage.",
+            "The application is separated into three primary experiences. Employee Request: employees submit or update the information required for their business card. Administration: authorized administrators review requests, manage cards and users, activate or deactivate cards, and maintain published information. Public Card: each activated employee receives a unique shareable card URL designed for quick contact viewing and saving.",
+            "Card records contain the employee's published contact information together with unique identifiers, card URLs, QR information, profile assets, and supporting metadata.",
+            "Access and database policies are designed so administrative operations remain separate from publicly accessible card information.",
+          ],
+        },
+        {
+          title: "Key Features",
+          body: [
+            "Employee card requests: employees request a business card online using their Employee ID, upload their photo, and provide relevant contact information.",
+            "Multi-stage approval: requests follow an approval workflow before publication. Department approvers can review requests directly through email without needing an administrative account.",
+            "Controlled card activation: approval does not automatically expose the card publicly. The System Administrator performs the final activation before the digital card becomes available.",
+            "Digital card sharing: every activated card receives a unique URL and QR code that employees can share digitally.",
+            "Save contact: visitors can save the employee's contact information directly to their device rather than manually copying individual fields.",
+            "Centralized administration: administrators can manage requests, cards, users, activation status, and published employee information from one workspace.",
+            "Card lifecycle management: cards can be updated when employee information changes and deactivated when they should no longer be publicly accessible.",
+            "Usage visibility: the system can record engagement such as card views, QR access, and contact-saving activity to provide administrators with visibility into card usage.",
+          ],
+        },
+        {
+          title: "Design Decisions",
+          body: [
+            "The public business card was intentionally kept much simpler than the administration system. Visitors do not need to understand the workflow behind the card. Their main tasks are to identify the employee, view their professional information, contact them, or save their details.",
+            "Administrative complexity therefore stays behind the public experience.",
+            "The approval workflow was also designed so occasional approvers do not need another application account just to approve a business-card request. Approval and rejection actions can instead be performed through controlled email links.",
+            "Activation was kept separate from approval. A request can be administratively approved without immediately becoming publicly accessible. This gives the System Administrator a final control point before publishing company information.",
+            "Unique URLs also separate the employee's identity from the underlying database record, allowing the public-facing route to remain simple and shareable.",
+          ],
+        },
+        {
+          title: "Challenges",
+          body: [
+            "One challenge was connecting a simple public experience to a much more controlled internal workflow. Employees expect requesting a card to be straightforward, while administrators need approval history, status control, correct employee information, and the ability to disable access when necessary.",
+            "Another challenge was keeping public cards responsive while maintaining an administration dashboard containing considerably more operational information. Performance optimization was applied to both the card experience and administrative dashboard as the system evolved.",
+            "Email notifications also became an important part of the workflow because approvals and employee communication happen outside the application itself. The notification process needed to reliably connect approval decisions, activation, and card availability.",
+            "The system also evolved to accommodate real operational requirements such as supporting additional employee-name presentation, including Chinese names where required, without changing the simplicity of the public card.",
+          ],
+        },
+        {
+          title: "Outcome",
+          body: [
+            "BBR Virtual Business Card provides a centralized workflow for managing employee business cards from request to publication.",
+            "Employees can request a card and share their professional information through a reusable digital link or QR code, while administrators retain control over what information is published and whether a card remains active.",
+            "Contact information can be updated without requiring a completely new digital identity, and inactive employee cards can be disabled centrally.",
+            "The project reinforced an important product lesson for me: even a seemingly simple feature like a digital business card becomes a business system once approval, security, employee lifecycle, public access, and administration are considered together.",
+            "The result was not just a digital replacement for a printed card, but a managed employee identity and contact-sharing workflow.",
+          ],
+        },
+      ],
+    },
+  },
+  {
     slug: "billo",
     title: "Billo",
     subtitle: "E-Sign and document workflow",
@@ -223,7 +336,7 @@ export const projects: Project[] = [
     kind: "Internal Workflow",
     monogram: "BL",
     accent: "#f0abfc",
-    featured: true,
+    featured: false,
     caseStudy: {
       summary:
         "Billo is a document workflow for routing files that need review and signature, with a clear record of who has the document and what happens next.",
