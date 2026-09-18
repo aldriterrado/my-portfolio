@@ -1,3 +1,5 @@
+import trainlogScreenshot from "../assets/photo/project/bbr-trainlog.png"
+
 export type CaseStudySection = {
   title: string
   body: string[]
@@ -123,7 +125,7 @@ export const projects: Project[] = [
       "Tailwind CSS",
       "Node.js",
     ],
-    image: null,
+    image: trainlogScreenshot,
     imageHint: "bbr-trainlog.png",
     imageCaption: "BBR TrainLog — employee training and qualification management.",
     year: "2025",

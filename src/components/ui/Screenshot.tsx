@@ -19,7 +19,7 @@ export function Screenshot({
           alt={alt}
           loading={priority ? "eager" : "lazy"}
           decoding="async"
-          className="aspect-[16/10] w-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.015] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+          className="w-full object-contain"
         />
       ) : (
         <div className="flex aspect-[16/10] w-full flex-col items-center justify-center gap-2 px-6 text-center">
