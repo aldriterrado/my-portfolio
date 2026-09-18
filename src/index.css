@@ -1,64 +1,298 @@
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'Geist';
-  src: url('/src/assets/fonts/Geist-Bold.woff2') format('woff2');
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Geist';
-  src: url('/src/assets/fonts/Geist-Thin.woff2') format('woff2');
+  font-family: "Geist";
+  src: url("./assets/fonts/Geist-Thin.woff2") format("woff2");
   font-weight: 100;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'Geist';
-  src: url('/src/assets/fonts/Geist-Regular.woff2') format('woff2');
+  font-family: "Geist";
+  src: url("./assets/fonts/Geist-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'Geist';
-  src: url('/src/assets/fonts/Geist-Medium.woff2') format('woff2');
+  font-family: "Geist";
+  src: url("./assets/fonts/Geist-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: 'Geist';
-  src: url('/src/assets/fonts/Geist-Black.woff2') format('woff2');
-  font-weight: 900;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Geist';
-  src: url('/src/assets/fonts/Geist-ExtraBold.woff2') format('woff2');
-  font-weight: 800;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Geist';
-  src: url('/src/assets/fonts/Geist-SemiBold.woff2') format('woff2');
+  font-family: "Geist";
+  src: url("./assets/fonts/Geist-SemiBold.woff2") format("woff2");
   font-weight: 600;
   font-style: normal;
+  font-display: swap;
 }
 
-/* Font weight utility classes */
-.font-thin { font-weight: 100; }
-.font-light { font-weight: 300; }
-.font-normal { font-weight: 400; }
-.font-medium { font-weight: 500; }
-.font-semibold { font-weight: 600; }
-.font-bold { font-weight: 700; }
-.font-extrabold { font-weight: 800; }
-.font-black { font-weight: 900; }
+@font-face {
+  font-family: "Geist";
+  src: url("./assets/fonts/Geist-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
-* {
-  font-family: 'Geist', sans-serif;
+@font-face {
+  font-family: "Geist";
+  src: url("./assets/fonts/Geist-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Geist";
+  src: url("./assets/fonts/Geist-Black.woff2") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-base: #0d0e10;
+  --color-surface: #131518;
+  --color-surface-hover: #181a1f;
+  --color-primary-text: #f5f5f3;
+  --color-primary-text-hover: #ffffff;
+  --color-secondary-text: #9b9ea5;
+  --color-muted: #7c8088;
+  --color-line: #25282d;
+  --color-line-strong: #32363d;
+  --color-hairline: rgb(255 255 255 / 0.05);
+  --color-accent: #5b8cff;
+  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+  --glow-strength: 22%;
+  --card-shadow: 0 30px 70px -30px rgb(0 0 0 / 0.8);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-base: #fbfaf8;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f3f2ef;
+  --color-primary-text: #14161a;
+  --color-primary-text-hover: #2a2d33;
+  --color-secondary-text: #5b6068;
+  --color-muted: #797d85;
+  --color-line: #e4e2dd;
+  --color-line-strong: #cec9c0;
+  --color-hairline: rgb(15 18 22 / 0.05);
+  --color-accent: #2f62e0;
+  --glow-strength: 12%;
+  --card-shadow: 0 24px 60px -32px rgb(15 18 22 / 0.22);
+}
+
+:root[data-theme-anim] *,
+:root[data-theme-anim] *::before,
+:root[data-theme-anim] *::after {
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease !important;
+}
+
+html {
+  font-family: var(--font-sans);
+  background-color: var(--color-base);
+  color: var(--color-primary-text);
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--color-base);
+  color: var(--color-primary-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 32%, transparent);
+  color: var(--color-primary-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.container-page {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: 20px;
+}
+
+.card-shadow {
+  box-shadow: var(--card-shadow);
+}
+
+.section {
+  isolation: isolate;
+  padding-block: 48px;
+  clip-path: inset(0);
+}
+
+@media (min-width: 768px) {
+  .container-page {
+    padding-inline: 24px;
+  }
+
+  .section {
+    padding-block: 64px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-page {
+    padding-inline: 32px;
+  }
+
+  .section {
+    padding-block: 72px;
+  }
+}
+
+.section-unveil {
+  filter: blur(8px);
+  opacity: 0.78;
+  transform: translateY(10px);
+  transition:
+    filter 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-unveil.is-unveiled {
+  filter: none;
+  opacity: 1;
+  transform: none;
+}
+
+.hero-glow {
+  background: radial-gradient(
+    58% 58% at 18% 0%,
+    color-mix(in srgb, var(--color-accent) var(--glow-strength), transparent) 0%,
+    transparent 68%
+  );
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-rise {
+  animation: hero-rise 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+
+.deck-card {
+  --deck-spread: 28px;
+  --deck-tilt: 3.5deg;
+  z-index: calc(20 - abs(var(--i)));
+  transform: translateX(calc(var(--i) * var(--deck-spread)))
+    translateY(calc(abs(var(--i)) * 10px)) rotate(calc(var(--i) * var(--deck-tilt)))
+    scale(calc(1 - abs(var(--i)) * 0.05));
+  transition:
+    transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 320ms ease;
+}
+
+.deck-card.is-active {
+  z-index: 30;
+}
+
+.deck-card.is-side {
+  opacity: 0.55;
+}
+
+.deck-card.is-side:hover,
+.deck-card.is-side:focus-within {
+  z-index: 32;
+  opacity: 1;
+}
+
+.deck-card-face {
+  transform-origin: center center;
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.deck-card.is-active .deck-card-face:hover,
+.deck-card.is-active .deck-card-face:focus-visible {
+  transform: scale(1.045);
+}
+
+.deck-card.is-side .deck-card-face:hover,
+.deck-card.is-side .deck-card-face:focus-visible {
+  transform: translateX(calc(var(--i) * 12px)) scale(1.07);
+}
+
+@media (min-width: 768px) {
+  .deck-card {
+    --deck-spread: 40px;
+    --deck-tilt: 4deg;
+  }
+}
+
+@media (min-width: 1024px) {
+  .deck-card {
+    --deck-spread: 52px;
+    --deck-tilt: 4.5deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .section-unveil {
+    filter: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .deck-card.is-active .deck-card-face:hover,
+  .deck-card.is-active .deck-card-face:focus-visible,
+  .deck-card.is-side .deck-card-face:hover,
+  .deck-card.is-side .deck-card-face:focus-visible {
+    transform: none !important;
+  }
+
+  :root[data-theme-anim] *,
+  :root[data-theme-anim] *::before,
+  :root[data-theme-anim] *::after {
+    transition: none !important;
+  }
 }

@@ -2,9 +2,50 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/Aldri.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aldri Terrado Portfolio</title>
+    <title>Aldri Terrado — IT Systems Engineer</title>
+    <meta
+      name="description"
+      content="IT Systems Engineer based in Singapore, building software, automation, internal tools, and reliable infrastructure."
+    />
+    <link rel="canonical" href="https://aldri-terrado.vercel.app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://aldri-terrado.vercel.app/" />
+    <meta property="og:title" content="Aldri Terrado — IT Systems Engineer" />
+    <meta
+      property="og:description"
+      content="IT Systems Engineer based in Singapore, building software, automation, internal tools, and reliable infrastructure."
+    />
+    <meta property="og:image" content="https://aldri-terrado.vercel.app/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Aldri Terrado — IT Systems Engineer" />
+    <meta
+      name="twitter:description"
+      content="IT Systems Engineer based in Singapore, building software, automation, internal tools, and reliable infrastructure."
+    />
+    <meta name="twitter:image" content="https://aldri-terrado.vercel.app/og.png" />
+    <meta name="theme-color" content="#0D0E10" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script>
+      ;(function () {
+        try {
+          var stored = localStorage.getItem("portfolio-theme")
+          var theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light"
+          document.documentElement.dataset.theme = theme
+          if (theme === "light") {
+            var meta = document.querySelector('meta[name="theme-color"]')
+            if (meta) meta.setAttribute("content", "#FBFAF8")
+          }
+        } catch (error) {
+          document.documentElement.dataset.theme = "dark"
+        }
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>
