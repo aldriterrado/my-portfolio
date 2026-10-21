@@ -2,23 +2,28 @@ import { useEffect } from "react"
 import { useLocation } from "react-router-dom"
 import { Container } from "../components/layout/Container"
 import { Section } from "../components/layout/Section"
+import { About } from "../components/sections/About"
 import { Capabilities } from "../components/sections/Capabilities"
 import { Contact } from "../components/sections/Contact"
 import { Experience } from "../components/sections/Experience"
 import { Hero } from "../components/sections/Hero"
-import { SystemsIndex } from "../components/sections/SystemsIndex"
-import { SpecLabel } from "../components/ui/SpecLabel"
-import { TextLink } from "../components/ui/TextLink"
+import { Work } from "../components/sections/Work"
+import { AccentTitle } from "../components/ui/AccentTitle"
+import { Button } from "../components/ui/Button"
+import { Magnetic } from "../components/ui/Magnetic"
+import { Marquee } from "../components/ui/Marquee"
+import { SectionHeading } from "../components/ui/SectionHeading"
 import { featuredProjects, projects } from "../data/projects"
 import { site } from "../data/site"
 import { useSeo } from "../hooks/useSeo"
-import { padIndex, scrollToId } from "../lib/motion"
+import { padIndex } from "../lib/motion"
+import { scrollToId } from "../lib/smoothScroll"
 
 export function Home() {
   const { hash } = useLocation()
 
   useSeo({
-    title: `${site.name} — ${site.role}`,
+    title: `${site.name} — ${site.role}, ${site.direction.toLowerCase()}`,
     description: site.description,
     path: "/",
   })
@@ -26,36 +31,43 @@ export function Home() {
   useEffect(() => {
     if (!hash) return
 
-    const frame = window.requestAnimationFrame(() => scrollToId(hash.slice(1)))
+    // Arriving from another page: jump while the page curtain still covers it.
+    const frame = window.requestAnimationFrame(() => scrollToId(hash.slice(1), true))
     return () => window.cancelAnimationFrame(frame)
   }, [hash])
 
   return (
     <>
-      <Container>
-        <Hero />
-      </Container>
+      <Hero />
 
-      <Section id="systems" labelledBy="systems-title">
+      <div className="border-y border-line">
+        <Marquee items={site.marquee} label="Stack and skills" />
+      </div>
+
+      <Section id="work" labelledBy="work-title">
         <Container>
-          <SpecLabel
-            n="1"
-            id="systems-title"
-            title="Selected systems"
-            meta={`${padIndex(featuredProjects.length)} of ${padIndex(projects.length)}`}
+          <SectionHeading
+            index="01"
+            label="Selected work"
+            id="work-title"
+            aside={`${padIndex(featuredProjects.length)} / ${padIndex(projects.length)}`}
+            title={<AccentTitle text={site.headings.work} />}
+            intro={site.intros.work}
           />
-          <p className="mt-6 mb-12 max-w-[60ch] text-[16px] leading-[1.6] text-secondary-text">
-            {site.intros.systems}
-          </p>
-          <SystemsIndex items={featuredProjects} />
-          <p className="mt-8">
-            <TextLink to="/projects" glyph="→">
-              Full systems index ({padIndex(projects.length)})
-            </TextLink>
-          </p>
+          <div className="mt-16 md:mt-24">
+            <Work items={featuredProjects} />
+          </div>
+          <div className="mt-20 flex justify-center md:mt-28">
+            <Magnetic>
+              <Button to="/projects" variant="outline" icon="arrow-right">
+                All projects ({padIndex(projects.length)})
+              </Button>
+            </Magnetic>
+          </div>
         </Container>
       </Section>
 
+      <About />
       <Experience />
       <Capabilities />
       <Contact />

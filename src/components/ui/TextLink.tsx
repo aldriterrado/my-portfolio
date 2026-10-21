@@ -1,11 +1,11 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import { Link } from "react-router-dom"
+import { Icon } from "./Icon"
 
 type SharedProps = {
   children: ReactNode
   className?: string
-  /** A mono glyph shown before the label, e.g. "→", "↗", "↓". */
-  glyph?: string
+  icon?: "arrow-right" | "arrow-up-right" | "arrow-down" | "arrow-left"
 }
 
 type TextLinkProps =
@@ -16,28 +16,24 @@ type TextLinkProps =
         to?: undefined
       })
 
-export function TextLink({
-  children,
-  className = "",
-  glyph,
-  ...props
-}: TextLinkProps) {
+/** Inline link whose underline draws in from the left on hover. */
+export function TextLink({ children, className = "", icon, ...props }: TextLinkProps) {
   const classes =
-    `group inline-flex items-baseline gap-2 text-[15px] text-primary-text transition-colors duration-200 hover:text-accent-text ${className}`.trim()
+    `group inline-flex items-center gap-2 text-primary-text transition-colors duration-300 hover:text-accent-text ${className}`.trim()
 
   const content = (
     <>
-      {glyph ? (
-        <span
-          aria-hidden="true"
-          className="font-mono text-[13px] text-accent-text"
-        >
-          {glyph}
-        </span>
-      ) : null}
-      <span className="underline decoration-line-strong decoration-1 underline-offset-[5px] transition-colors duration-200 group-hover:decoration-accent">
+      {icon === "arrow-left" ? <Icon name={icon} size={16} /> : null}
+      <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-left-bottom bg-no-repeat pb-0.5 transition-[background-size] duration-500 ease-out-expo group-hover:bg-[length:100%_1px]">
         {children}
       </span>
+      {icon && icon !== "arrow-left" ? (
+        <Icon
+          name={icon}
+          size={16}
+          className="transition-transform duration-500 ease-out-expo group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+        />
+      ) : null}
     </>
   )
 

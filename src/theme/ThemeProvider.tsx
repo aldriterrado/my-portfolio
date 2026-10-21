@@ -9,8 +9,8 @@ import {
 import { ThemeContext, type Theme, type ThemeContextValue } from "./context"
 
 const STORAGE_KEY = "portfolio-theme"
-const DEFAULT_THEME: Theme = "light"
-const ANIM_DURATION = 220
+const DEFAULT_THEME: Theme = "dark"
+const ANIM_DURATION = 260
 
 function readStored(): Theme | null {
   try {

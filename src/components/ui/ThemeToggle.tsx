@@ -1,42 +1,23 @@
 import { useTheme } from "../../theme/context"
+import { Icon } from "./Icon"
 
 type ThemeToggleProps = {
   className?: string
 }
 
-const options = [
-  { value: "light", label: "Paper", description: "Light theme" },
-  { value: "dark", label: "Carbon", description: "Dark theme" },
-] as const
-
 export function ThemeToggle({ className = "" }: ThemeToggleProps) {
-  const { theme, setTheme } = useTheme()
+  const { theme, toggleTheme } = useTheme()
+  const next = theme === "dark" ? "light" : "dark"
 
   return (
-    <div
-      role="group"
-      aria-label="Theme"
-      className={`inline-flex border border-line font-mono text-[11px] tracking-[0.06em] uppercase ${className}`.trim()}
+    <button
+      type="button"
+      onClick={toggleTheme}
+      aria-label={`Switch to ${next} theme`}
+      title={`Switch to ${next} theme`}
+      className={`grid size-11 place-items-center rounded-full border border-line text-secondary-text transition-colors duration-300 hover:border-primary-text hover:text-primary-text ${className}`.trim()}
     >
-      {options.map((option) => {
-        const active = theme === option.value
-        return (
-          <button
-            key={option.value}
-            type="button"
-            aria-pressed={active}
-            title={option.description}
-            onClick={() => setTheme(option.value)}
-            className={`px-2.5 py-1.5 transition-colors duration-200 ${
-              active
-                ? "bg-primary-text text-surface"
-                : "text-muted hover:text-primary-text"
-            }`}
-          >
-            {option.label}
-          </button>
-        )
-      })}
-    </div>
+      <Icon name={theme === "dark" ? "sun" : "moon"} size={18} />
+    </button>
   )
 }

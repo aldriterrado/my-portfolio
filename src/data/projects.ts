@@ -1,5 +1,4 @@
 import trainlogScreenshot from "../assets/photo/project/bbr-trainlog.png"
-import { diagrams, type SystemDiagram } from "./diagrams"
 
 export type CaseStudySection = {
   title: string
@@ -19,9 +18,10 @@ export type Project = {
   imageCaption?: string
   year: string
   kind: string
-  /** Two-letter code, shown as the case-study document code (CS-AF). */
+  /** Two-letter code, set large on the typographic cover. */
   monogram: string
-  diagram: SystemDiagram
+  /** Hue for the cover gradient only; never used for text. */
+  tint: string
   featured: boolean
   caseStudy: {
     summary: string
@@ -45,7 +45,7 @@ export const projects: Project[] = [
     year: "2025",
     kind: "Internal Platform",
     monogram: "AF",
-    diagram: diagrams.assetflow,
+    tint: "#4f7cff",
     featured: true,
     caseStudy: {
       summary:
@@ -135,7 +135,7 @@ export const projects: Project[] = [
     year: "2025",
     kind: "Internal Platform",
     monogram: "TL",
-    diagram: diagrams["training-management"],
+    tint: "#f5c542",
     featured: true,
     caseStudy: {
       summary:
@@ -238,7 +238,7 @@ export const projects: Project[] = [
     year: "2025",
     kind: "Internal Platform",
     monogram: "VC",
-    diagram: diagrams["virtual-business-card"],
+    tint: "#ff7a45",
     featured: true,
     caseStudy: {
       summary:
@@ -341,7 +341,7 @@ export const projects: Project[] = [
     year: "2024",
     kind: "Internal Workflow",
     monogram: "BL",
-    diagram: diagrams.billo,
+    tint: "#a78bfa",
     featured: false,
     caseStudy: {
       summary:
@@ -422,7 +422,7 @@ export const projects: Project[] = [
     year: "2024",
     kind: "Infrastructure Tool",
     monogram: "FG",
-    diagram: diagrams["file-gateway"],
+    tint: "#2dd4bf",
     featured: false,
     caseStudy: {
       summary:

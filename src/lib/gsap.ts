@@ -1,8 +1,9 @@
 import gsap from "gsap"
+import { SplitText } from "gsap/SplitText"
 import { useGSAP } from "@gsap/react"
 
-gsap.registerPlugin(useGSAP)
+gsap.registerPlugin(useGSAP, SplitText)
 
-// Import gsap from here so the plugin is registered once. Signature moments
+// Import gsap from here so plugins are registered once. Signature moments
 // only; small scroll-ins use components/ui/Reveal.
-export { gsap, useGSAP }
+export { gsap, SplitText, useGSAP }

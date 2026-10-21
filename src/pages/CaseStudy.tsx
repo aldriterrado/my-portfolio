@@ -1,36 +1,36 @@
-import { useEffect, useRef, type ReactNode } from "react"
-import { Navigate, useParams } from "react-router-dom"
+import { useRef, useState } from "react"
+import { Link, Navigate, useParams } from "react-router-dom"
 import { Container } from "../components/layout/Container"
-import { DocHeader } from "../components/ui/DocHeader"
-import { Figure } from "../components/ui/Figure"
-import { Screenshot } from "../components/ui/Screenshot"
-import { SpecTable } from "../components/ui/SpecTable"
-import { SystemDiagram } from "../components/ui/SystemDiagram"
+import { Icon } from "../components/ui/Icon"
+import { ProjectCover } from "../components/ui/ProjectCover"
+import { Reveal } from "../components/ui/Reveal"
 import { TextLink } from "../components/ui/TextLink"
 import {
   getAdjacentProjects,
   getProjectBySlug,
   projects,
   type CaseStudySection,
-  type Project,
 } from "../data/projects"
 import { site } from "../data/site"
-import { useDiagramMotion } from "../hooks/useDiagramMotion"
+import { useScrubCover } from "../hooks/useScrubCover"
 import { useSeo } from "../hooks/useSeo"
+import { useSplitReveal } from "../hooks/useSplitReveal"
+import { useGSAP } from "../lib/gsap"
 import { padIndex } from "../lib/motion"
 import { ScrollTrigger } from "../lib/scrollTrigger"
+import { scrollToId } from "../lib/smoothScroll"
 
-// "Name: description" items become a numbered features table.
+// "Name: description" items become a numbered feature grid.
 const FEATURE_PATTERN = /^([^:]{3,40}):\s+(.+)$/
+
+const sectionId = (title: string) =>
+  `cs-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`
 
 function Prose({ paragraphs }: { paragraphs: string[] }) {
   return (
-    <div className="max-w-[68ch] space-y-4">
+    <div className="max-w-[64ch] space-y-5">
       {paragraphs.map((paragraph) => (
-        <p
-          key={paragraph}
-          className="text-[16px] leading-[1.7] text-secondary-text"
-        >
+        <p key={paragraph} className="text-[18px] leading-[1.7] text-secondary-text">
           {paragraph}
         </p>
       ))}
@@ -42,46 +42,28 @@ function Features({ items }: { items: string[] }) {
   const parsed = items.map((item) => item.match(FEATURE_PATTERN))
 
   if (parsed.every(Boolean)) {
-    const rows = parsed.map((match, index) => ({
-      id: `F-${padIndex(index + 1)}`,
-      name: match![1],
-      text: match![2].charAt(0).toUpperCase() + match![2].slice(1),
-    }))
     return (
-      <SpecTable
-        caption="Key features"
-        rows={rows}
-        rowKey={(row) => row.id}
-        columns={[
-          {
-            key: "id",
-            label: "Ref",
-            mono: true,
-            className: "md:w-16 !text-accent-text",
-            render: (row) => row.id,
-          },
-          {
-            key: "name",
-            label: "Feature",
-            className: "font-medium !text-primary-text md:w-[30%]",
-            render: (row) => row.name,
-          },
-          { key: "text", label: "Description", render: (row) => row.text },
-        ]}
-      />
+      <ol className="grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-2">
+        {parsed.map((match, index) => (
+          <li key={match![1]} className="bg-base p-6 sm:last:odd:col-span-2 md:p-8">
+            <span className="eyebrow text-accent-text">{padIndex(index + 1)}</span>
+            <h3 className="mt-4 text-[19px] font-medium tracking-[-0.02em] text-primary-text">
+              {match![1]}
+            </h3>
+            <p className="mt-2 text-[15px] leading-[1.6] text-secondary-text">
+              {match![2].charAt(0).toUpperCase() + match![2].slice(1)}
+            </p>
+          </li>
+        ))}
+      </ol>
     )
   }
 
   return (
-    <ol className="max-w-[68ch] border-t border-primary-text">
+    <ol className="max-w-[64ch] space-y-4">
       {items.map((item, index) => (
-        <li
-          key={item}
-          className="grid grid-cols-[3.5rem_minmax(0,1fr)] border-b border-line py-3.5 text-[16px] leading-[1.6] text-secondary-text"
-        >
-          <span className="pt-0.5 font-mono text-[12px] text-accent-text">
-            F-{padIndex(index + 1)}
-          </span>
+        <li key={item} className="flex gap-5 text-[17px] leading-[1.6] text-secondary-text">
+          <span className="eyebrow mt-1.5 text-accent-text">{padIndex(index + 1)}</span>
           {item}
         </li>
       ))}
@@ -89,339 +71,217 @@ function Features({ items }: { items: string[] }) {
   )
 }
 
-function SheetSection({
-  index,
-  title,
-  children,
-}: {
-  index: number
-  title: string
-  children: ReactNode
-}) {
-  const id = `section-${padIndex(index)}`
-  return (
-    <section
-      aria-labelledby={id}
-      className="grid gap-5 border-t border-line py-10 md:py-14 lg:grid-cols-12 lg:gap-0"
-    >
-      <h2
-        id={id}
-        className="flex items-baseline gap-3 lg:col-span-3 lg:pr-8"
-      >
-        <span className="font-mono text-[12px] text-accent-text">
-          §{padIndex(index)}
-        </span>
-        <span className="text-[20px] leading-tight font-medium tracking-[-0.02em] text-primary-text md:text-[22px]">
-          {title}
-        </span>
-      </h2>
-      <div className="min-w-0 lg:col-span-9">{children}</div>
-    </section>
-  )
-}
-
-function ArchitectureSection({
-  index,
-  section,
-  project,
-}: {
-  index: number
-  section: CaseStudySection
-  project: Project
-}) {
-  const sectionRef = useRef<HTMLDivElement>(null)
-  const figureRef = useRef<HTMLDivElement>(null)
-  useDiagramMotion(figureRef, {
-    mode: "scrub",
-    media: "(min-width: 1024px)",
-    trigger: sectionRef,
-  })
-
-  return (
-    <SheetSection index={index} title={section.title}>
-      <div ref={sectionRef} className="grid gap-8 xl:grid-cols-9 xl:gap-0">
-        <div className="xl:col-span-4 xl:pr-10">
-          <Prose paragraphs={section.body} />
-          <p className="mt-6 font-mono text-[12px] text-muted lg:hidden">
-            See FIG.01 above for the full architecture.
-          </p>
-        </div>
-        <div className="hidden lg:block xl:col-span-5">
-          <div ref={figureRef} className="sticky top-24">
-            <Figure id="FIG.01a" title="Build sequence" meta="Schematic">
-              <div className="p-4">
-                <SystemDiagram diagram={project.diagram} variant="compact" />
-              </div>
-            </Figure>
-          </div>
-        </div>
-      </div>
-    </SheetSection>
+function SectionBody({ section }: { section: CaseStudySection }) {
+  return section.title === "Key Features" ? (
+    <Features items={section.body} />
+  ) : (
+    <Prose paragraphs={section.body} />
   )
 }
 
 export function CaseStudy() {
   const { slug } = useParams<{ slug: string }>()
-  // Remount per project so every figure's motion is rebuilt for its diagram.
-  return <CaseStudySheet key={slug} slug={slug} />
+  // Remount per project so every scroll animation is rebuilt for its content.
+  return <CaseStudyPage key={slug} slug={slug} />
 }
 
-function CaseStudySheet({ slug }: { slug: string | undefined }) {
+function CaseStudyPage({ slug }: { slug: string | undefined }) {
   const project = slug ? getProjectBySlug(slug) : undefined
-  const figureRef = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLElement>(null)
+  const [activeId, setActiveId] = useState<string | null>(null)
 
   useSeo({
-    title: project
-      ? `${project.title} — ${site.name}`
-      : `Project — ${site.name}`,
+    title: project ? `${project.title} — ${site.name}` : `Project — ${site.name}`,
     description: project?.caseStudy.summary ?? site.description,
     path: project ? `/projects/${project.slug}` : "/projects",
   })
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" })
-    ScrollTrigger.refresh()
-  }, [slug])
+  useSplitReveal(ref)
+  useScrubCover(ref)
 
-  useDiagramMotion(figureRef, { mode: "play" })
+  // Track which section is in view for the table of contents.
+  useGSAP(
+    () => {
+      ref.current?.querySelectorAll<HTMLElement>("[data-toc-section]").forEach((el) => {
+        ScrollTrigger.create({
+          trigger: el,
+          start: "top 45%",
+          end: "bottom 45%",
+          onToggle: (self) => {
+            if (self.isActive) setActiveId(el.id)
+          },
+        })
+      })
+    },
+    { scope: ref },
+  )
 
   if (!project) {
     return <Navigate to="/projects" replace />
   }
 
   const number = projects.findIndex((item) => item.slug === project.slug) + 1
-  const { previous, next } = getAdjacentProjects(project.slug)
-  const { diagram } = project
-  const nodeLabel = new Map(diagram.nodes.map((node) => [node.id, node.label]))
+  const { next } = getAdjacentProjects(project.slug)
+  const following = next ?? projects[0]
+  const { sections } = project.caseStudy
 
   const specs = [
     { label: "Role", value: project.role },
     { label: "Platform", value: project.platform },
-    { label: "Stack", value: project.stack.join(" · ") },
-    { label: "Kind", value: project.kind },
+    { label: "Stack", value: project.stack.join(", ") },
     { label: "Year", value: project.year },
   ]
 
   return (
-    <article className="pb-20 md:pb-28">
-      <Container>
-        <div className="pt-14">
-          <DocHeader
-            code={`CS-${project.monogram}`}
-            sheet={`${padIndex(number)}/${padIndex(projects.length)}`}
-            title="Case study"
-          />
-        </div>
-
-        <p className="mt-6">
-          <TextLink to="/projects" glyph="←">
-            Systems index
-          </TextLink>
-        </p>
-
-        <header className="grid gap-10 pt-10 pb-14 lg:grid-cols-12 lg:gap-0 lg:pt-14 lg:pb-16">
-          <div className="lg:col-span-7 lg:pr-12">
-            <p className="mb-5 flex flex-wrap gap-x-3 font-mono text-[12px] text-muted">
-              <span className="text-accent-text">No. {padIndex(number)}</span>
-              <span>{project.kind}</span>
-              <span>{project.year}</span>
+    <article ref={ref} aria-labelledby="cs-title">
+      <header className="pt-32 md:pt-44">
+        <Container>
+          <div data-fade className="flex flex-wrap items-center justify-between gap-4">
+            <TextLink to="/projects" icon="arrow-left" className="text-[15px]">
+              All work
+            </TextLink>
+            <p className="eyebrow">
+              <span className="text-accent-text">{padIndex(number)}</span> /{" "}
+              {padIndex(projects.length)} · {project.kind}
             </p>
-            <h1 className="text-[clamp(2.4rem,6vw,4.5rem)] leading-[1] font-medium tracking-[-0.04em] text-primary-text">
-              {project.title}
-            </h1>
-            <p className="mt-4 max-w-[46ch] text-[19px] leading-[1.45] text-primary-text">
+          </div>
+
+          <h1
+            id="cs-title"
+            data-split="chars"
+            className="mt-12 text-[clamp(3.25rem,12vw,12rem)] leading-[0.86] font-semibold tracking-[-0.06em] text-primary-text md:mt-16"
+          >
+            {project.title}
+          </h1>
+
+          <div className="mt-10 grid gap-8 md:mt-14 lg:grid-cols-12">
+            <p
+              data-fade
+              data-delay="0.3"
+              className="text-[clamp(1.375rem,2.4vw,2rem)] leading-[1.2] tracking-[-0.025em] text-primary-text lg:col-span-6"
+            >
               {project.subtitle}
             </p>
-            <p className="mt-6 max-w-[62ch] text-[16px] leading-[1.7] text-secondary-text">
+            <p
+              data-fade
+              data-delay="0.4"
+              className="max-w-[52ch] text-[17px] leading-[1.6] text-secondary-text lg:col-span-5 lg:col-start-8"
+            >
               {project.caseStudy.summary}
             </p>
           </div>
-          <dl className="self-start border-t border-primary-text lg:col-span-5 lg:ml-10">
+
+          <dl
+            data-fade
+            data-delay="0.5"
+            className="mt-14 grid gap-6 border-t border-line pt-6 sm:grid-cols-2 lg:grid-cols-4"
+          >
             {specs.map((spec) => (
-              <div
-                key={spec.label}
-                className="grid grid-cols-[5.5rem_minmax(0,1fr)] gap-4 border-b border-line py-2.5"
-              >
-                <dt className="font-mono text-[11px] leading-[1.9] tracking-[0.06em] text-muted uppercase">
-                  {spec.label}
-                </dt>
-                <dd className="text-[14px] leading-[1.55] text-primary-text">
-                  {spec.value}
-                </dd>
+              <div key={spec.label}>
+                <dt className="eyebrow">{spec.label}</dt>
+                <dd className="mt-2 text-[15px] leading-[1.5] text-primary-text">{spec.value}</dd>
               </div>
             ))}
           </dl>
-        </header>
+        </Container>
+      </header>
 
-        <Figure
-          id="FIG.01"
-          title="System architecture"
-          meta={`${diagram.nodes.length} components · ${diagram.edges.length} connections`}
-          notes={diagram.notes}
-        >
-          <div
-            ref={figureRef}
-            className="overflow-x-auto"
-            tabIndex={0}
-            role="region"
-            aria-label="FIG.01, system architecture diagram"
-          >
-            <div className="min-w-[760px] p-4 md:min-w-0 md:p-6">
-              <SystemDiagram diagram={diagram} />
-            </div>
-          </div>
-        </Figure>
-        <p className="mt-2 font-mono text-[11px] text-muted md:hidden">
-          ⟷ Scroll the figure sideways
-        </p>
-
-        <details className="group mt-6 border-y border-line">
-          <summary className="flex cursor-pointer list-none items-baseline gap-3 py-3 font-mono text-[12px] text-secondary-text hover:text-primary-text [&::-webkit-details-marker]:hidden">
-            <span
-              aria-hidden="true"
-              className="inline-block text-accent-text transition-transform duration-200 group-open:rotate-90"
-            >
-              ▸
-            </span>
-            Connections table ({diagram.edges.length})
-          </summary>
-          <div className="pb-6">
-            <SpecTable
-              caption="System connections"
-              rows={diagram.edges}
-              rowKey={(edge) => `${edge.from}-${edge.to}`}
-              columns={[
-                {
-                  key: "from",
-                  label: "From",
-                  className: "!text-primary-text",
-                  render: (edge) => nodeLabel.get(edge.from),
-                },
-                {
-                  key: "to",
-                  label: "To",
-                  className: "!text-primary-text",
-                  render: (edge) => (
-                    <>
-                      {edge.both ? "⇄ " : "→ "}
-                      {nodeLabel.get(edge.to)}
-                    </>
-                  ),
-                },
-                {
-                  key: "interface",
-                  label: "Interface",
-                  mono: true,
-                  render: (edge) => edge.label ?? "—",
-                },
-              ]}
-            />
-          </div>
-        </details>
-
-        <div className="mt-16 border-b border-line">
-          {project.caseStudy.sections.map((section, index) => {
-            const n = index + 1
-
-            if (section.title === "Architecture") {
-              return (
-                <ArchitectureSection
-                  key={section.title}
-                  index={n}
-                  section={section}
-                  project={project}
-                />
-              )
-            }
-
-            return (
-              <div key={section.title}>
-                <SheetSection index={n} title={section.title}>
-                  {section.title === "Key Features" ? (
-                    <Features items={section.body} />
-                  ) : (
-                    <Prose paragraphs={section.body} />
-                  )}
-                </SheetSection>
-                {section.title === "Solution" && project.image ? (
-                  <Figure
-                    id="FIG.02"
-                    title="Interface"
-                    caption={project.imageCaption}
-                    className="pb-14"
-                  >
-                    <Screenshot
-                      src={project.image}
-                      alt={project.imageCaption ?? `${project.title} interface`}
-                      onLoad={() => ScrollTrigger.refresh()}
-                    />
-                  </Figure>
-                ) : null}
-              </div>
-            )
-          })}
-        </div>
-
-        {import.meta.env.DEV && !project.image ? (
-          <div className="mt-10 border border-dashed border-line">
-            <Screenshot
-              src={null}
-              alt={`${project.title} screenshot (FIG.02)`}
-              hint={project.imageHint}
-            />
-          </div>
+      <Container className="mt-14 md:mt-20">
+        <ProjectCover
+          project={project}
+          priority
+          alt={project.imageCaption ?? `${project.title} interface`}
+          className="aspect-[4/3] md:aspect-[16/9]"
+        />
+        {project.image && project.imageCaption ? (
+          <p className="eyebrow mt-4">{project.imageCaption}</p>
         ) : null}
+      </Container>
 
-        <nav
-          className="mt-16 grid border-t border-primary-text sm:grid-cols-2"
-          aria-label="More case studies"
+      <Container className="mt-20 md:mt-32">
+        <div className="grid gap-12 lg:grid-cols-12">
+          <nav aria-label="Case study sections" className="hidden lg:col-span-3 lg:block">
+            <div className="sticky top-28">
+              <p className="eyebrow">Contents</p>
+              <ol className="mt-5 space-y-1">
+                {sections.map((section, index) => {
+                  const id = sectionId(section.title)
+                  const active = activeId === id
+                  return (
+                    <li key={id}>
+                      <a
+                        href={`#${id}`}
+                        onClick={(event) => {
+                          event.preventDefault()
+                          scrollToId(id)
+                        }}
+                        aria-current={active ? "location" : undefined}
+                        className={`group flex items-center gap-3 py-1.5 text-[15px] transition-colors duration-300 ${
+                          active ? "text-primary-text" : "text-muted hover:text-primary-text"
+                        }`}
+                      >
+                        <span
+                          aria-hidden="true"
+                          className={`h-px transition-all duration-500 ease-out-expo ${
+                            active ? "w-8 bg-accent" : "w-3 bg-line-strong group-hover:w-5"
+                          }`}
+                        />
+                        <span className="font-mono text-[11px]">{padIndex(index + 1)}</span>
+                        {section.title}
+                      </a>
+                    </li>
+                  )
+                })}
+              </ol>
+            </div>
+          </nav>
+
+          <div className="lg:col-span-8 lg:col-start-5">
+            {sections.map((section, index) => (
+              <section
+                key={section.title}
+                id={sectionId(section.title)}
+                data-toc-section
+                aria-labelledby={`${sectionId(section.title)}-title`}
+                className="scroll-mt-28 border-t border-line py-14 first:border-t-0 first:pt-0 md:py-20"
+              >
+                <Reveal>
+                  <p className="eyebrow text-accent-text">{padIndex(index + 1)}</p>
+                  <h2
+                    id={`${sectionId(section.title)}-title`}
+                    className="mt-4 mb-8 text-[clamp(2rem,3.6vw,3rem)] leading-[1] font-medium tracking-[-0.04em] text-primary-text"
+                  >
+                    {section.title}
+                  </h2>
+                  <SectionBody section={section} />
+                </Reveal>
+              </section>
+            ))}
+          </div>
+        </div>
+      </Container>
+
+      <Container className="mt-12 mb-24 md:mb-40">
+        <Link
+          to={`/projects/${following.slug}`}
+          data-cursor="Next"
+          className="group block border-t border-line pt-8"
         >
-          {previous ? (
-            <TextLinkSheet
-              to={`/projects/${previous.slug}`}
-              direction="Previous"
-              title={previous.title}
-            />
-          ) : (
-            <span />
-          )}
-          {next ? (
-            <TextLinkSheet
-              to={`/projects/${next.slug}`}
-              direction="Next"
-              title={next.title}
-              alignEnd
-            />
-          ) : null}
-        </nav>
+          <p className="eyebrow">{next ? "Next project" : "Back to the first project"}</p>
+          <div className="mt-6 flex items-end justify-between gap-6">
+            <span className="text-[clamp(3rem,10vw,9.5rem)] leading-[0.88] font-semibold tracking-[-0.06em] text-primary-text transition-colors duration-500 group-hover:text-accent-text">
+              {following.title}
+            </span>
+            <span className="mb-2 grid size-14 shrink-0 place-items-center rounded-full border border-line-strong text-primary-text transition-colors duration-300 group-hover:border-accent group-hover:bg-accent group-hover:text-on-accent md:size-20">
+              <Icon
+                name="arrow-right"
+                size={24}
+                className="transition-transform duration-500 ease-out-expo group-hover:translate-x-1"
+              />
+            </span>
+          </div>
+        </Link>
       </Container>
     </article>
-  )
-}
-
-function TextLinkSheet({
-  to,
-  direction,
-  title,
-  alignEnd = false,
-}: {
-  to: string
-  direction: "Previous" | "Next"
-  title: string
-  alignEnd?: boolean
-}) {
-  return (
-    <div
-      className={`border-b border-line py-6 ${
-        alignEnd ? "sm:border-l sm:pl-8 sm:text-right" : "sm:pr-8"
-      }`}
-    >
-      <p className="mb-2 font-mono text-[11px] tracking-[0.06em] text-muted uppercase">
-        {direction === "Previous" ? "← Previous sheet" : "Next sheet →"}
-      </p>
-      <TextLink to={to} className="text-[20px] font-medium tracking-[-0.02em]">
-        {title}
-      </TextLink>
-    </div>
   )
 }

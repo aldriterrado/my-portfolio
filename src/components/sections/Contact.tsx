@@ -1,57 +1,25 @@
-import { useEffect, useRef, useState, type ReactNode } from "react"
+import { useEffect, useRef, useState } from "react"
 import { site } from "../../data/site"
+import { useSplitReveal } from "../../hooks/useSplitReveal"
 import { Container } from "../layout/Container"
 import { Section } from "../layout/Section"
-import { Reveal } from "../ui/Reveal"
-import { SpecLabel } from "../ui/SpecLabel"
-
-const handle = (url: string) => url.replace(/\/+$/, "").split("/").pop() ?? url
+import { Button } from "../ui/Button"
+import { Icon } from "../ui/Icon"
+import { Magnetic } from "../ui/Magnetic"
+import { TextLink } from "../ui/TextLink"
 
 const channels = [
-  {
-    label: "LinkedIn",
-    value: `in/${handle(site.linkedin)}`,
-    href: site.linkedin,
-    external: true,
-    arrow: "↗",
-  },
-  {
-    label: "GitHub",
-    value: `@${handle(site.github)}`,
-    href: site.github,
-    external: true,
-    arrow: "↗",
-  },
-  {
-    label: "Phone",
-    value: site.phone,
-    href: `tel:${site.phone.replace(/\s+/g, "")}`,
-    external: false,
-    arrow: "→",
-  },
-  {
-    label: "Résumé",
-    value: "PDF",
-    href: site.resume,
-    external: false,
-    arrow: "↓",
-  },
+  { label: "LinkedIn", href: site.linkedin, external: true },
+  { label: "GitHub", href: site.github, external: true },
+  { label: site.phone, href: `tel:${site.phone.replace(/\s+/g, "")}`, external: false },
+  { label: "Résumé", href: site.resume, external: false },
 ]
 
-function Field({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <div className="grid gap-1.5 border-b border-line px-6 py-4 last:border-b-0 sm:grid-cols-[7.5rem_minmax(0,1fr)] sm:gap-4 md:px-10">
-      <dt className="font-mono text-[11px] leading-[1.9] tracking-[0.06em] text-muted uppercase">
-        {label}
-      </dt>
-      <dd className="min-w-0 text-[15px] text-primary-text">{children}</dd>
-    </div>
-  )
-}
-
 export function Contact() {
+  const ref = useRef<HTMLDivElement>(null)
   const [copied, setCopied] = useState(false)
   const resetRef = useRef<number | null>(null)
+  useSplitReveal(ref)
 
   useEffect(
     () => () => {
@@ -72,83 +40,83 @@ export function Contact() {
     resetRef.current = window.setTimeout(() => setCopied(false), 2000)
   }
 
+  const { headline } = site.contact
+
   return (
-    <Section id="contact" labelledBy="contact-title">
+    <Section id="contact" labelledBy="contact-title" className="overflow-hidden">
       <Container>
-        <SpecLabel n="4" id="contact-title" title="Request for work" meta="RFW-01" />
+        <div ref={ref}>
+          <p className="eyebrow flex items-center gap-3 border-t border-line pt-5">
+            <span className="text-accent-text">(05)</span>
+            Contact
+          </p>
 
-        <Reveal className="mt-12">
-          <div className="ticks border border-primary-text bg-surface">
-            <div className="grid lg:grid-cols-12">
-              <div className="border-b border-line p-6 md:p-10 lg:col-span-5 lg:border-r lg:border-b-0">
-                <p className="flex items-center gap-2 font-mono text-[11px] tracking-[0.06em] text-muted uppercase">
-                  <span aria-hidden="true" className="size-2 bg-accent" />
-                  RFW-01 · Open
-                </p>
-                <p className="mt-6 text-[clamp(1.75rem,3.2vw,2.5rem)] leading-[1.08] font-medium tracking-[-0.03em] text-primary-text">
-                  {site.contact.headline}
-                </p>
-                <p className="mt-4 max-w-[42ch] text-[16px] leading-[1.6] text-secondary-text">
-                  {site.contact.body}
-                </p>
+          <h2
+            id="contact-title"
+            data-split="lines"
+            data-scroll
+            className="mt-12 text-[clamp(3.25rem,11vw,11rem)] leading-[0.9] font-semibold tracking-[-0.06em] text-balance text-primary-text md:mt-16"
+          >
+            {headline.before} <span className="accent-serif font-normal">{headline.accent}</span>{" "}
+            {headline.after}
+          </h2>
+
+          <div className="mt-14 grid gap-12 md:mt-20 lg:grid-cols-12 lg:items-end">
+            <div data-fade data-scroll className="lg:col-span-7">
+              <p className="max-w-[44ch] text-[18px] leading-[1.55] text-secondary-text">
+                {site.contact.body}
+              </p>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <a
+                  href={`mailto:${site.email}`}
+                  className="text-[clamp(1.35rem,3.2vw,2.75rem)] leading-tight font-medium tracking-[-0.035em] break-all text-primary-text underline decoration-line-strong decoration-2 underline-offset-[0.2em] transition-colors duration-300 hover:text-accent-text hover:decoration-accent"
+                >
+                  {site.email}
+                </a>
+                <button
+                  type="button"
+                  onClick={copyEmail}
+                  className="inline-flex min-h-11 items-center gap-2 rounded-full border border-line-strong px-4 text-[13px] text-secondary-text transition-colors duration-300 hover:border-primary-text hover:text-primary-text"
+                >
+                  <Icon name={copied ? "check" : "copy"} size={15} />
+                  {copied ? "Copied" : "Copy"}
+                  <span className="sr-only"> email address</span>
+                </button>
+                <span aria-live="polite" className="sr-only">
+                  {copied ? "Email address copied to clipboard" : ""}
+                </span>
               </div>
+            </div>
 
-              <dl className="lg:col-span-7">
-                <Field label="To">
-                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                    <a
-                      href={`mailto:${site.email}`}
-                      className="truncate font-mono text-[14px] underline decoration-line-strong underline-offset-4 transition-colors duration-200 hover:text-accent-text hover:decoration-accent"
+            <div data-fade data-scroll data-delay="0.15" className="flex flex-col gap-8 lg:col-span-5 lg:items-end">
+              <Magnetic>
+                <Button href={`mailto:${site.email}`} className="min-h-16 pl-8 text-[17px]">
+                  {site.contact.cta}
+                </Button>
+              </Magnetic>
+              <p className="eyebrow flex items-center gap-2.5">
+                <span aria-hidden="true" className="pulse-dot" />
+                {site.contact.availability}
+              </p>
+              <p className="max-w-[40ch] text-[14px] leading-[1.5] text-muted lg:text-right">
+                {site.contact.note}
+              </p>
+              <ul className="flex flex-wrap gap-x-6 gap-y-2 text-[15px] lg:justify-end">
+                {channels.map((channel) => (
+                  <li key={channel.label}>
+                    <TextLink
+                      href={channel.href}
+                      icon={channel.external ? "arrow-up-right" : undefined}
+                      {...(channel.external ? { target: "_blank", rel: "noreferrer" } : {})}
                     >
-                      {site.email}
-                    </a>
-                    <button
-                      type="button"
-                      onClick={copyEmail}
-                      className="min-h-9 border border-line px-3 font-mono text-[11px] tracking-[0.06em] text-secondary-text uppercase transition-colors duration-200 hover:border-primary-text hover:text-primary-text"
-                    >
-                      {copied ? "Copied" : "Copy"}
-                      <span className="sr-only"> email address</span>
-                    </button>
-                    <span aria-live="polite" className="sr-only">
-                      {copied ? "Email address copied to clipboard" : ""}
-                    </span>
-                  </div>
-                </Field>
-                <Field label="Re">{site.contact.regarding}</Field>
-                <Field label="Channels">
-                  <ul className="flex flex-wrap gap-x-6 gap-y-2">
-                    {channels.map((channel) => (
-                      <li key={channel.label}>
-                        <a
-                          href={channel.href}
-                          {...(channel.external
-                            ? { target: "_blank", rel: "noopener noreferrer" }
-                            : {})}
-                          className="group inline-flex items-baseline gap-1.5 transition-colors duration-200 hover:text-accent-text"
-                        >
-                          <span className="font-mono text-[11px] tracking-[0.06em] text-muted uppercase">
-                            {channel.label}
-                          </span>
-                          <span className="underline decoration-line-strong underline-offset-4 group-hover:decoration-accent">
-                            {channel.value}
-                          </span>
-                          <span aria-hidden="true" className="font-mono text-[12px]">
-                            {channel.arrow}
-                          </span>
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </Field>
-                <Field label="Availability">{site.contact.availability}</Field>
-                <Field label="Location">
-                  {site.location} · {site.timezone}
-                </Field>
-              </dl>
+                      {channel.label}
+                    </TextLink>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-        </Reveal>
+        </div>
       </Container>
     </Section>
   )

@@ -12,7 +12,7 @@ export function Section({ id, children, className = "", labelledBy }: SectionPro
     <section
       id={id}
       aria-labelledby={labelledBy}
-      className={`section relative scroll-mt-16 ${className}`.trim()}
+      className={`section relative ${className}`.trim()}
     >
       {children}
     </section>

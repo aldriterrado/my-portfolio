@@ -66,13 +66,6 @@ export const roles: Role[] = [
 
 export const capabilities: CapabilityGroup[] = [
   {
-    id: "product",
-    title: "Software & Internal Tools",
-    focus:
-      "I enjoy building tools that make everyday work a little simpler — from interfaces to the systems behind them.",
-    stack: ["React", "TypeScript", "Node.js", "Supabase", "PostgreSQL"],
-  },
-  {
     id: "infrastructure",
     title: "IT & Infrastructure",
     focus:
@@ -84,6 +77,13 @@ export const capabilities: CapabilityGroup[] = [
       "Synology",
       "Fortinet",
     ],
+  },
+  {
+    id: "product",
+    title: "Software & Internal Tools",
+    focus:
+      "I enjoy building tools that make everyday work a little simpler — from interfaces to the systems behind them.",
+    stack: ["React", "TypeScript", "Node.js", "Supabase", "PostgreSQL"],
   },
   {
     id: "systems",
