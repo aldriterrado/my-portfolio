@@ -23,3 +23,7 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+# Python cache (ui-ux-pro-max skill scripts)
+__pycache__/
+*.pyc

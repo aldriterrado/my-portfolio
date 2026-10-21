@@ -3,9 +3,11 @@ import { useEffect, useRef, useState, type ReactNode } from "react"
 type RevealProps = {
   children: ReactNode
   className?: string
+  /** Delay in ms, for staggering siblings. */
+  delay?: number
 }
 
-export function Reveal({ children, className = "" }: RevealProps) {
+export function Reveal({ children, className = "", delay = 0 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [visible, setVisible] = useState(false)
 
@@ -36,8 +38,9 @@ export function Reveal({ children, className = "" }: RevealProps) {
   return (
     <div
       ref={ref}
-      className={`transition-all duration-500 ease-out motion-reduce:transition-none ${
-        visible ? "translate-y-0" : "translate-y-3"
+      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
+      className={`transition-[opacity,translate] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+        visible ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
       } ${className}`.trim()}
     >
       {children}

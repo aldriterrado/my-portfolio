@@ -9,7 +9,7 @@ import {
 import { ThemeContext, type Theme, type ThemeContextValue } from "./context"
 
 const STORAGE_KEY = "portfolio-theme"
-const DARK_QUERY = "(prefers-color-scheme: dark)"
+const DEFAULT_THEME: Theme = "light"
 const ANIM_DURATION = 220
 
 function readStored(): Theme | null {
@@ -21,28 +21,11 @@ function readStored(): Theme | null {
   }
 }
 
-function systemTheme(): Theme {
-  return window.matchMedia(DARK_QUERY).matches ? "dark" : "light"
-}
-
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [stored, setStored] = useState<Theme | null>(() => readStored())
-  const [system, setSystem] = useState<Theme>(() => systemTheme())
+  const [theme, setThemeState] = useState<Theme>(
+    () => readStored() ?? DEFAULT_THEME,
+  )
   const animTimeout = useRef<number | undefined>(undefined)
-
-  const theme = stored ?? system
-
-  useEffect(() => {
-    if (stored) return
-
-    const media = window.matchMedia(DARK_QUERY)
-    const onChange = (event: MediaQueryListEvent) =>
-      setSystem(event.matches ? "dark" : "light")
-
-    setSystem(media.matches ? "dark" : "light")
-    media.addEventListener("change", onChange)
-    return () => media.removeEventListener("change", onChange)
-  }, [stored])
 
   useEffect(() => {
     const root = document.documentElement
@@ -75,7 +58,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       animTimeout.current = undefined
     }, ANIM_DURATION)
 
-    setStored(next)
+    setThemeState(next)
     try {
       localStorage.setItem(STORAGE_KEY, next)
     } catch {
@@ -87,11 +70,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const value = useMemo<ThemeContextValue>(
     () => ({
       theme,
-      isSystem: stored === null,
       setTheme,
       toggleTheme: () => setTheme(theme === "dark" ? "light" : "dark"),
     }),
-    [theme, stored, setTheme],
+    [theme, setTheme],
   )
 
   return <ThemeContext value={value}>{children}</ThemeContext>

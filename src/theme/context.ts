@@ -4,7 +4,6 @@ export type Theme = "light" | "dark"
 
 export type ThemeContextValue = {
   theme: Theme
-  isSystem: boolean
   setTheme: (theme: Theme) => void
   toggleTheme: () => void
 }

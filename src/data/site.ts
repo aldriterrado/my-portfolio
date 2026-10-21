@@ -1,25 +1,53 @@
 export const site = {
   name: "Aldri Terrado",
-  role: "IT Systems Engineer",
+  role: "Full-stack Engineer",
   location: "Singapore",
+  timezone: "GMT+8",
   email: "aldriterrado30@gmail.com",
   phone: "+65 8938 8219",
   origin: "https://aldri-terrado.vercel.app",
+  // DRAFT copy
   description:
-    "IT Systems Engineer based in Singapore, building software, automation, internal tools, and reliable infrastructure.",
-  headline: {
-    lead: "I enjoy building things, solving problems",
-    trail: "and learning along the way.",
+    "Full-stack engineer in Singapore building the internal systems a business runs on, and the infrastructure under them.",
+  // Document metadata shown in the DocHeader strip and footer.
+  doc: {
+    id: "AT/SYS-01",
+    rev: "2026.10",
   },
-  supporting:
-    "I spend my time exploring software, automation and IT systems — turning ideas and everyday problems into things that actually work.",
+  hero: {
+    // DRAFT copy: one entry per visual line of the headline.
+    lines: [
+      "I build the internal systems",
+      "a business runs on —",
+      "and the infrastructure under them.",
+    ],
+    // DRAFT copy
+    abstract:
+      "Full-stack engineer working in React, TypeScript and Postgres. I turn spreadsheet-and-email workflows into systems people rely on every day, and because I also run the identity, network and storage they sit on, I design for the environment they actually live in.",
+  },
+  titleBlock: [
+    { label: "Name", value: "Aldri Terrado" },
+    { label: "Role", value: "Full-stack Engineer" },
+    { label: "Base", value: "Singapore · GMT+8" },
+    { label: "Focus", value: "Internal platforms, workflow systems" },
+    { label: "Stack", value: "React · TypeScript · Node.js · PostgreSQL" },
+    { label: "Status", value: "Open to software roles", note: 1 },
+  ],
+  footnotes: [{ n: 1, text: "Remote, or on-site in Singapore." }],
+  intros: {
+    // DRAFT copy
+    systems:
+      "Each system started as a spreadsheet, an inbox, or a shared folder. Every one is drawn as its architecture, because that is where the decisions are.",
+    log: "Seven years across infrastructure, enterprise delivery and internal product work.",
+    spec: "What I build with, and what I am learning next.",
+  },
   exploring: {
     title: "AI Engineering",
-    body: "I’m currently learning how AI fits into the software I already enjoy building — strengthening my engineering fundamentals first, then gradually exploring how AI can become part of real products.",
+    body: "Strengthening engineering fundamentals first, then bringing AI into real products where it earns its place.",
     track: [
       {
         title: "Software foundations",
-        note: "Writing cleaner, maintainable software and strengthening the fundamentals.",
+        note: "Cleaner, maintainable software and stronger fundamentals.",
         active: true,
       },
       {
@@ -29,22 +57,18 @@ export const site = {
       },
       {
         title: "Applied AI",
-        note: "Exploring retrieval, evaluation, agents, and practical AI features inside real products.",
+        note: "Retrieval, evaluation, agents, and practical AI features inside real products.",
         active: false,
       },
     ],
-    builtOn: ["product", "systems"],
   },
   contact: {
-    status: "Open to new opportunities",
-    headline: "Have something interesting to build?",
-    body: "A role, a project, or a workflow that needs untangling — I'm happy to talk it through. Email reaches me fastest.",
-    note: "I'm open for remote work",
+    // DRAFT copy
+    headline: "Have a system that needs building?",
+    body: "A role, a product, or a workflow that has outgrown its spreadsheet. Email reaches me fastest.",
+    regarding: "Software and full-stack engineering roles",
+    availability: "Available now · remote or Singapore",
   },
-  about: [
-    "I'm an IT professional and software builder based in Singapore.",
-    "My work sits between infrastructure and software: understanding operational problems, designing systems around them, and building tools that make those workflows simpler.",
-  ],
   // TODO: replace with your public LinkedIn profile URL
   linkedin: "https://www.linkedin.com/in/aldriterrado",
   github: "https://github.com/aldriterrado",
@@ -53,6 +77,8 @@ export const site = {
 } as const
 
 export const navLinks = [
-  { label: "Projects", href: "/projects" },
-  { label: "Experience", href: "/#experience" },
+  { n: "01", label: "Systems", href: "/projects" },
+  { n: "02", label: "Log", href: "/#log" },
+  { n: "03", label: "Spec", href: "/#spec" },
+  { n: "04", label: "Contact", href: "/#contact" },
 ] as const

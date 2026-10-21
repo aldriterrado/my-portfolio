@@ -1,145 +1,97 @@
-import { credentials, roles } from "../../data/experience"
+import { roles } from "../../data/experience"
+import { site } from "../../data/site"
 import { Container } from "../layout/Container"
 import { Section } from "../layout/Section"
 import { Reveal } from "../ui/Reveal"
-import { SectionLabel } from "../ui/SectionLabel"
+import { SpecLabel } from "../ui/SpecLabel"
+
+// Revisions count up from the oldest role: A, B, C…
+const revision = (index: number) =>
+  String.fromCharCode(65 + roles.length - 1 - index)
+
+const columns =
+  "lg:grid-cols-[4rem_10rem_minmax(0,1fr)_minmax(0,1.35fr)]"
 
 export function Experience() {
   return (
-    <Section id="experience">
+    <Section id="log" labelledBy="log-title">
       <Container>
-        <Reveal>
-          <SectionLabel>Experience</SectionLabel>
-        </Reveal>
+        <SpecLabel
+          n="2"
+          id="log-title"
+          title="Revision log"
+          meta={`${String(roles.length).padStart(2, "0")} entries`}
+        />
+        <p className="mt-6 max-w-[60ch] text-[16px] leading-[1.6] text-secondary-text">
+          {site.intros.log}
+        </p>
 
-        <div className="relative">
-          <span
-            aria-hidden="true"
-            className="absolute top-3 bottom-0 left-[5px] w-px bg-gradient-to-b from-line via-line to-transparent md:left-[137px]"
-          />
-          <ol>
-            {roles.map((role) => {
-              const [start, end] = role.range
-                .split("—")
-                .map((part) => part.trim())
-
-              return (
-                <li key={role.id} className="pb-16 last:pb-0">
-                  <Reveal className="relative grid gap-2 pl-7 md:grid-cols-[132px_1fr] md:gap-x-10 md:pl-0">
-                    <span
-                      aria-hidden="true"
-                      className={`absolute top-[7px] left-0 h-[11px] w-[11px] rounded-full border md:left-[132px] ${
-                        role.current
-                          ? "border-accent bg-accent shadow-[0_0_0_4px] shadow-accent/15"
-                          : "border-line bg-base"
-                      }`}
-                    />
-
-                    <p className="font-mono text-[13px] text-muted md:pt-1.5 md:pr-6 md:text-right">
-                      {start}
-                      {end ? (
-                        <>
-                          {" — "}
-                          <span
-                            className={role.current ? "text-accent" : undefined}
-                          >
-                            {end}
-                          </span>
-                        </>
-                      ) : null}
-                    </p>
-
-                    <div>
-                      <h2 className="text-[22px] leading-tight font-semibold tracking-[-0.02em] text-primary-text md:text-[26px]">
-                        {role.title}
-                      </h2>
-                      <p className="mt-2 text-[15px] text-secondary-text">
-                        {role.company}
-                      </p>
-                      <p className="mt-4 max-w-2xl text-[16px] leading-[1.6] text-secondary-text">
-                        {role.summary}
-                      </p>
-                      <ul className="mt-6 space-y-3">
-                        {role.highlights.map((highlight) => (
-                          <li
-                            key={highlight}
-                            className="flex gap-4 text-[15px] leading-[1.6] text-secondary-text"
-                          >
-                            <span
-                              aria-hidden="true"
-                              className="mt-[11px] h-px w-3 shrink-0 bg-line"
-                            />
-                            <span className="max-w-xl">{highlight}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </Reveal>
-                </li>
-              )
-            })}
-          </ol>
+        <div
+          aria-hidden="true"
+          className={`mt-10 hidden gap-x-8 border-b border-primary-text pb-2 font-mono text-[11px] tracking-[0.06em] text-muted uppercase lg:grid ${columns}`}
+        >
+          <span>Rev</span>
+          <span>Period</span>
+          <span>Role / Organisation</span>
+          <span>Changes</span>
         </div>
 
-        <Reveal className="mt-16 border-t border-line pt-12">
-          <div className="flex flex-wrap items-baseline justify-between gap-3">
-            <h3 className="text-[13px] font-medium tracking-[0.08em] text-muted uppercase">
-              Credentials
-            </h3>
-            <p className="font-mono text-[12px] text-muted tabular-nums">
-              {String(credentials.length).padStart(2, "0")} certifications
-            </p>
-          </div>
-
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {credentials.map((credential) => {
-              const [issuer, platform] = credential.issuer
-                .split("·")
-                .map((part) => part.trim())
-
-              return (
-                <a
-                  key={credential.href}
-                  href={credential.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="card-surface group flex flex-col rounded-[20px] border border-line bg-surface p-5 transition-[border-color,background-color,box-shadow] duration-300 hover:border-line-strong hover:bg-surface-hover hover:shadow-[var(--card-shadow)]"
-                >
-                  <div className="flex items-center justify-between gap-4">
-                    <p className="min-w-0 truncate font-mono text-[11px] tracking-[0.14em] text-muted uppercase">
-                      {issuer}
-                    </p>
-                    <p className="shrink-0 rounded-full border border-line bg-base/60 px-2 py-0.5 font-mono text-[11px] text-muted tabular-nums">
-                      {credential.year}
-                    </p>
-                  </div>
-
-                  <h4 className="mt-5 text-[17px] leading-snug font-semibold tracking-[-0.02em] text-primary-text">
-                    {credential.title}
-                  </h4>
-
-                  {platform ? (
-                    <p className="mt-1.5 text-[13px] text-muted">
-                      Issued via {platform}
-                    </p>
-                  ) : null}
-
-                  <div className="mt-auto pt-6">
-                    <span className="flex items-center justify-between gap-3 border-t border-hairline pt-3.5 text-[13px] text-secondary-text transition-colors duration-300 group-hover:text-primary-text">
-                      View credential
-                      <span
-                        aria-hidden="true"
-                        className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                      >
-                        ↗
+        <ol className="mt-8 border-t border-primary-text lg:mt-0 lg:border-t-0">
+          {roles.map((role, index) => (
+            <li key={role.id} className="border-b border-line">
+              <Reveal className={`grid gap-x-8 gap-y-3 py-7 lg:py-9 ${columns}`}>
+                <p className="flex items-baseline gap-3 font-mono text-[12px] text-muted lg:contents">
+                  <span className="flex items-baseline gap-2 text-primary-text">
+                    <span
+                      aria-hidden="true"
+                      className={`inline-block size-2 translate-y-[-1px] ${
+                        role.current
+                          ? "bg-accent"
+                          : "border border-line-strong"
+                      }`}
+                    />
+                    <span className="sr-only">Revision </span>
+                    {revision(index)}
+                  </span>
+                  <span className="tabular-nums">
+                    {role.range}
+                    {role.current ? (
+                      <span className="ml-3 text-accent-text lg:mt-1 lg:ml-0 lg:block">
+                        Current
                       </span>
-                    </span>
-                  </div>
-                </a>
-              )
-            })}
-          </div>
-        </Reveal>
+                    ) : null}
+                  </span>
+                </p>
+                <div>
+                  <h3 className="text-[20px] leading-tight font-medium tracking-[-0.02em] text-primary-text md:text-[22px]">
+                    {role.title}
+                  </h3>
+                  <p className="mt-1.5 text-[15px] text-secondary-text">
+                    {role.company}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[15px] leading-[1.6] text-secondary-text">
+                    {role.summary}
+                  </p>
+                  <ul className="mt-4 space-y-2">
+                    {role.highlights.map((highlight) => (
+                      <li
+                        key={highlight}
+                        className="grid grid-cols-[1.25rem_minmax(0,1fr)] text-[14px] leading-[1.55] text-secondary-text"
+                      >
+                        <span aria-hidden="true" className="font-mono text-muted">
+                          +
+                        </span>
+                        {highlight}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            </li>
+          ))}
+        </ol>
       </Container>
     </Section>
   )

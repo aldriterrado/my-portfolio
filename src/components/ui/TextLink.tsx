@@ -4,7 +4,8 @@ import { Link } from "react-router-dom"
 type SharedProps = {
   children: ReactNode
   className?: string
-  arrow?: boolean
+  /** A mono glyph shown before the label, e.g. "→", "↗", "↓". */
+  glyph?: string
 }
 
 type TextLinkProps =
@@ -18,16 +19,25 @@ type TextLinkProps =
 export function TextLink({
   children,
   className = "",
-  arrow = false,
+  glyph,
   ...props
 }: TextLinkProps) {
   const classes =
-    `inline-flex items-center gap-1.5 text-[15px] text-primary-text transition-colors duration-200 hover:text-accent ${className}`.trim()
+    `group inline-flex items-baseline gap-2 text-[15px] text-primary-text transition-colors duration-200 hover:text-accent-text ${className}`.trim()
 
   const content = (
     <>
-      {children}
-      {arrow ? <span aria-hidden="true">↗</span> : null}
+      {glyph ? (
+        <span
+          aria-hidden="true"
+          className="font-mono text-[13px] text-accent-text"
+        >
+          {glyph}
+        </span>
+      ) : null}
+      <span className="underline decoration-line-strong decoration-1 underline-offset-[5px] transition-colors duration-200 group-hover:decoration-accent">
+        {children}
+      </span>
     </>
   )
 

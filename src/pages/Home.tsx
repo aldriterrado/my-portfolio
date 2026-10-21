@@ -1,12 +1,18 @@
 import { useEffect } from "react"
 import { useLocation } from "react-router-dom"
 import { Container } from "../components/layout/Container"
+import { Section } from "../components/layout/Section"
 import { Capabilities } from "../components/sections/Capabilities"
 import { Contact } from "../components/sections/Contact"
 import { Experience } from "../components/sections/Experience"
 import { Hero } from "../components/sections/Hero"
+import { SystemsIndex } from "../components/sections/SystemsIndex"
+import { SpecLabel } from "../components/ui/SpecLabel"
+import { TextLink } from "../components/ui/TextLink"
+import { featuredProjects, projects } from "../data/projects"
 import { site } from "../data/site"
 import { useSeo } from "../hooks/useSeo"
+import { padIndex, scrollToId } from "../lib/motion"
 
 export function Home() {
   const { hash } = useLocation()
@@ -20,25 +26,36 @@ export function Home() {
   useEffect(() => {
     if (!hash) return
 
-    const id = hash.slice(1)
-    const frame = window.requestAnimationFrame(() => {
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
-    })
-
+    const frame = window.requestAnimationFrame(() => scrollToId(hash.slice(1)))
     return () => window.cancelAnimationFrame(frame)
   }, [hash])
 
   return (
     <>
-      <div className="relative isolate min-h-svh">
-        <div
-          aria-hidden="true"
-          className="hero-glow pointer-events-none absolute inset-x-0 -top-40 -z-10 h-[720px]"
-        />
-        <Container className="grid min-h-svh content-center pt-20 pb-8">
-          <Hero />
+      <Container>
+        <Hero />
+      </Container>
+
+      <Section id="systems" labelledBy="systems-title">
+        <Container>
+          <SpecLabel
+            n="1"
+            id="systems-title"
+            title="Selected systems"
+            meta={`${padIndex(featuredProjects.length)} of ${padIndex(projects.length)}`}
+          />
+          <p className="mt-6 mb-12 max-w-[60ch] text-[16px] leading-[1.6] text-secondary-text">
+            {site.intros.systems}
+          </p>
+          <SystemsIndex items={featuredProjects} />
+          <p className="mt-8">
+            <TextLink to="/projects" glyph="→">
+              Full systems index ({padIndex(projects.length)})
+            </TextLink>
+          </p>
         </Container>
-      </div>
+      </Section>
+
       <Experience />
       <Capabilities />
       <Contact />

@@ -1,18 +1,16 @@
 import { useEffect } from "react"
-import { Link } from "react-router-dom"
 import { Container } from "../components/layout/Container"
+import { SystemsIndex } from "../components/sections/SystemsIndex"
+import { DocHeader } from "../components/ui/DocHeader"
 import { projects } from "../data/projects"
 import { site } from "../data/site"
 import { useSeo } from "../hooks/useSeo"
-
-function padIndex(index: number) {
-  return String(index).padStart(2, "0")
-}
+import { padIndex } from "../lib/motion"
 
 export function Projects() {
   useSeo({
-    title: `Projects — ${site.name}`,
-    description: `Software, internal tools and operational systems built by ${site.name}.`,
+    title: `Systems index — ${site.name}`,
+    description: `Internal platforms, workflow systems and infrastructure tools built by ${site.name}, each documented with its architecture.`,
     path: "/projects",
   })
 
@@ -21,60 +19,31 @@ export function Projects() {
   }, [])
 
   return (
-    <section className="pt-24 pb-20 md:pt-28 md:pb-28">
+    <section aria-labelledby="index-title" className="pb-20 md:pb-28">
       <Container>
-        <header className="max-w-3xl">
-          <p className="mb-4 font-mono text-[13px] text-muted">Index</p>
-          <h1 className="text-[clamp(2.25rem,5vw,3.5rem)] leading-[1.1] font-semibold tracking-[-0.04em] text-primary-text">
-            Projects
-          </h1>
-          <p className="mt-4 max-w-xl text-[17px] leading-[1.6] text-secondary-text">
-            Internal platforms and operational tools, from asset management to
-            document workflow.
+        <div className="pt-14">
+          <DocHeader sheet="02" title="Index" />
+        </div>
+
+        <header className="grid gap-8 pt-14 pb-12 md:pt-20 lg:grid-cols-12 lg:gap-0 lg:pb-16">
+          <div className="lg:col-span-8">
+            <p className="mb-6 flex items-baseline gap-3 font-mono text-[12px] text-muted">
+              <span className="text-accent-text">§1</span>
+              <span>{padIndex(projects.length)} entries</span>
+            </p>
+            <h1
+              id="index-title"
+              className="text-[clamp(2.4rem,6vw,4.5rem)] leading-[1] font-medium tracking-[-0.04em] text-primary-text"
+            >
+              Systems index
+            </h1>
+          </div>
+          <p className="max-w-[52ch] self-end text-[16px] leading-[1.6] text-secondary-text lg:col-span-4">
+            {site.intros.systems}
           </p>
         </header>
 
-        <ul className="mt-12 border-t border-line">
-          {projects.map((project, index) => (
-            <li key={project.slug} className="border-b border-line">
-              <Link
-                to={`/projects/${project.slug}`}
-                className="group grid gap-3 py-8 sm:grid-cols-[auto_minmax(0,1fr)_auto] sm:items-start sm:gap-8"
-              >
-                <span className="pt-1 font-mono text-[13px] text-muted tabular-nums">
-                  {padIndex(index + 1)}
-                </span>
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-                    <h2 className="text-[20px] font-semibold tracking-[-0.03em] text-secondary-text transition-colors duration-200 group-hover:text-primary-text md:text-[22px]">
-                      {project.title}
-                    </h2>
-                    {project.featured ? (
-                      <span className="rounded-full border border-line px-2 py-0.5 font-mono text-[11px] tracking-[0.06em] text-muted uppercase">
-                        Featured
-                      </span>
-                    ) : null}
-                  </div>
-                  <p className="mt-2 text-[15px] text-secondary-text">
-                    {project.subtitle}
-                  </p>
-                  <p className="mt-3 font-mono text-[12px] text-muted">
-                    {project.kind} · {project.year}
-                  </p>
-                  <p className="mt-2 font-mono text-[12px] text-muted">
-                    {project.stack.join(" / ")}
-                  </p>
-                </div>
-                <span
-                  aria-hidden="true"
-                  className="hidden text-[18px] text-muted transition-transform duration-200 group-hover:translate-x-1 sm:block"
-                >
-                  →
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <SystemsIndex items={projects} headingLevel="h2" />
       </Container>
     </section>
   )

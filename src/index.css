@@ -1,97 +1,99 @@
 @import "tailwindcss";
 
+/* IBM Plex, latin subset, self-hosted. License: assets/fonts/OFL-IBMPlex.txt */
 @font-face {
-  font-family: "Geist";
-  src: url("./assets/fonts/Geist-Thin.woff2") format("woff2");
-  font-weight: 100;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Geist";
-  src: url("./assets/fonts/Geist-Regular.woff2") format("woff2");
+  font-family: "IBM Plex Sans";
+  src: url("./assets/fonts/IBMPlexSans-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Geist";
-  src: url("./assets/fonts/Geist-Medium.woff2") format("woff2");
+  font-family: "IBM Plex Sans";
+  src: url("./assets/fonts/IBMPlexSans-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "IBM Plex Sans";
+  src: url("./assets/fonts/IBMPlexSans-Medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Geist";
-  src: url("./assets/fonts/Geist-SemiBold.woff2") format("woff2");
+  font-family: "IBM Plex Sans";
+  src: url("./assets/fonts/IBMPlexSans-SemiBold.woff2") format("woff2");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Geist";
-  src: url("./assets/fonts/Geist-Bold.woff2") format("woff2");
-  font-weight: 700;
+  font-family: "IBM Plex Mono";
+  src: url("./assets/fonts/IBMPlexMono-Regular.woff2") format("woff2");
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Geist";
-  src: url("./assets/fonts/Geist-ExtraBold.woff2") format("woff2");
-  font-weight: 800;
+  font-family: "IBM Plex Mono";
+  src: url("./assets/fonts/IBMPlexMono-Medium.woff2") format("woff2");
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 
-@font-face {
-  font-family: "Geist";
-  src: url("./assets/fonts/Geist-Black.woff2") format("woff2");
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
+/* Light ("paper") is the default theme. Dark ("carbon") overrides below. */
 @theme {
-  --color-base: #0d0e10;
-  --color-surface: #131518;
-  --color-surface-hover: #181a1f;
-  --color-primary-text: #f5f5f3;
-  --color-primary-text-hover: #ffffff;
-  --color-secondary-text: #9b9ea5;
-  --color-muted: #7c8088;
-  --color-line: #25282d;
-  --color-line-strong: #32363d;
-  --color-hairline: rgb(255 255 255 / 0.05);
-  --color-accent: #5b8cff;
-  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
+  --color-base: #f2efe8;
+  --color-surface: #faf8f3;
+  --color-surface-hover: #ebe7de;
+  --color-primary-text: #16171a;
+  --color-primary-text-hover: #000000;
+  --color-secondary-text: #55585e;
+  --color-muted: #62656b;
+  --color-line: #ddd8ce;
+  --color-line-strong: #c4bdb0;
+  --color-hairline: rgb(22 23 26 / 0.07);
+  --color-grid: rgb(22 23 26 / 0.045);
+  --color-diagram: #8a857a;
+  --color-accent: #f04b00;
+  --color-accent-text: #b83a0b;
+
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --radius-*: initial;
+  --radius-xs: 1px;
+  --radius-sm: 2px;
 }
 
 :root {
-  color-scheme: dark;
-  --glow-strength: 22%;
-  --card-shadow: 0 30px 70px -30px rgb(0 0 0 / 0.8);
+  color-scheme: light;
 }
 
-:root[data-theme="light"] {
-  color-scheme: light;
-  --color-base: #fbfaf8;
-  --color-surface: #ffffff;
-  --color-surface-hover: #f3f2ef;
-  --color-primary-text: #14161a;
-  --color-primary-text-hover: #2a2d33;
-  --color-secondary-text: #5b6068;
-  --color-muted: #797d85;
-  --color-line: #e4e2dd;
-  --color-line-strong: #cec9c0;
-  --color-hairline: rgb(15 18 22 / 0.05);
-  --color-accent: #2f62e0;
-  --glow-strength: 12%;
-  --card-shadow: 0 24px 60px -32px rgb(15 18 22 / 0.22);
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-base: #111214;
+  --color-surface: #17181b;
+  --color-surface-hover: #1d1f23;
+  --color-primary-text: #ece9e2;
+  --color-primary-text-hover: #ffffff;
+  --color-secondary-text: #a3a39e;
+  --color-muted: #8a8b88;
+  --color-line: #2b2d31;
+  --color-line-strong: #3a3d42;
+  --color-hairline: rgb(236 233 226 / 0.07);
+  --color-grid: rgb(236 233 226 / 0.035);
+  --color-diagram: #6b6d70;
+  --color-accent: #ff6a2b;
+  --color-accent-text: #ff6a2b;
 }
 
 :root[data-theme-anim] *,
@@ -100,15 +102,16 @@
   transition:
     background-color 200ms ease,
     border-color 200ms ease,
-    color 200ms ease !important;
+    color 200ms ease,
+    fill 200ms ease,
+    stroke 200ms ease !important;
 }
 
 html {
   font-family: var(--font-sans);
   background-color: var(--color-base);
   color: var(--color-primary-text);
-  scroll-behavior: smooth;
-  scroll-padding-top: 5.5rem;
+  scroll-padding-top: 5rem;
 }
 
 body {
@@ -118,63 +121,43 @@ body {
   color: var(--color-primary-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "ss02";
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--color-accent) 32%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 28%, transparent);
   color: var(--color-primary-text);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-accent-text);
   outline-offset: 3px;
 }
 
 .container-page {
   width: 100%;
-  max-width: 1240px;
+  max-width: 1280px;
   margin-inline: auto;
   padding-inline: 20px;
 }
 
-.card-shadow {
-  box-shadow: var(--card-shadow);
-}
-
-.card-surface {
-  position: relative;
-  isolation: isolate;
-}
-
-.card-surface::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  border-radius: inherit;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      120% 85% at 0% 0%,
-      color-mix(in srgb, var(--color-primary-text) 6%, transparent) 0%,
-      transparent 58%
-    ),
-    radial-gradient(
-      85% 70% at 100% 100%,
-      color-mix(in srgb, var(--color-accent) 8%, transparent) 0%,
-      transparent 62%
-    );
-}
-
 .section {
-  isolation: isolate;
-  padding-block: 48px;
-  clip-path: inset(0);
+  padding-block: 40px;
 }
 
 @media (min-width: 768px) {
   .container-page {
-    padding-inline: 24px;
+    padding-inline: 32px;
+  }
+
+  .section {
+    padding-block: 56px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-page {
+    padding-inline: 40px;
   }
 
   .section {
@@ -182,115 +165,241 @@ body {
   }
 }
 
-@media (min-width: 1024px) {
-  .container-page {
-    padding-inline: 32px;
+/* Faint graph paper, used behind the title block and inside figure frames. */
+.graph-paper {
+  background-image:
+    linear-gradient(var(--color-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: -1px -1px;
+}
+
+/* Registration ticks on the four corners of a framed block. */
+.ticks {
+  position: relative;
+}
+
+.ticks::before {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  pointer-events: none;
+  --tick: var(--color-primary-text);
+  background:
+    linear-gradient(var(--tick), var(--tick)) top left / 11px 1px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) top left / 1px 11px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) top right / 11px 1px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) top right / 1px 11px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) bottom left / 11px 1px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) bottom left / 1px 11px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) bottom right / 11px 1px no-repeat,
+    linear-gradient(var(--tick), var(--tick)) bottom right / 1px 11px no-repeat;
+}
+
+/* Dotted leader between a label and its value: "02 — Log ........ 3 entries" */
+.leader {
+  flex: 1 1 auto;
+  min-width: 1.5rem;
+  align-self: center;
+  border-bottom: 1px dotted var(--color-line-strong);
+  transform: translateY(0.2em);
+}
+
+[data-rule] {
+  transform-origin: left center;
+}
+
+/* Each hero line rises from behind its own mask. */
+.line-mask {
+  display: block;
+  overflow: clip;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.line-mask > span {
+  display: block;
+  text-wrap: balance;
+}
+
+/* Spec tables become label/value rows below md. */
+@media (max-width: 767.98px) {
+  .spec-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 
-  .section {
-    padding-block: 72px;
+  .spec-table tbody,
+  .spec-table tr,
+  .spec-table td,
+  .spec-table th {
+    display: block;
+  }
+
+  .spec-table tr {
+    padding-block: 14px;
+  }
+
+  .spec-table td,
+  .spec-table th {
+    padding: 2px 0 !important;
+  }
+
+  .spec-table td[data-label]::before,
+  .spec-table th[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 2px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: var(--color-muted);
+    text-transform: uppercase;
   }
 }
 
-.section-unveil {
-  filter: blur(8px);
-  opacity: 0.78;
-  transform: translateY(10px);
+/* ---------- System diagrams ---------- */
+
+.sd-node-box {
+  fill: var(--color-surface);
+  stroke: var(--color-primary-text);
+  stroke-width: 1;
+}
+
+.sd-node[data-kind="external"] .sd-node-box {
+  stroke-dasharray: 4 3;
+}
+
+.sd-node-detail {
+  fill: none;
+  stroke: var(--color-primary-text);
+  stroke-width: 1;
+}
+
+.sd-node-fill {
+  fill: var(--color-primary-text);
+}
+
+.sd-label {
+  fill: var(--color-primary-text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.sd-sub {
+  fill: var(--color-secondary-text);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+}
+
+.sd-kind {
+  fill: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+}
+
+.sd-edge {
+  fill: none;
+  stroke: var(--color-diagram);
+  stroke-width: 1.25;
+}
+
+.sd-arrow {
+  fill: var(--color-diagram);
+}
+
+.sd-edge-label {
+  fill: var(--color-secondary-text);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  paint-order: stroke;
+  stroke: var(--color-base);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+.sd-group-box {
+  fill: none;
+  stroke: var(--color-line-strong);
+  stroke-width: 1;
+  stroke-dasharray: 2 4;
+}
+
+.sd-group-label {
+  fill: var(--color-muted);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.12em;
+}
+
+.sd-kind-lg {
+  fill: var(--color-primary-text);
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.sd-compact .sd-node-box,
+.sd-compact .sd-node-detail {
+  stroke-width: 2;
+}
+
+.sd-compact .sd-edge {
+  stroke-width: 2.5;
+}
+
+.sd-compact .sd-group-box {
+  stroke-width: 2;
+}
+
+.sd-node[data-active] .sd-node-box {
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+}
+
+.sd-node[data-active] .sd-kind {
+  fill: var(--color-accent-text);
+}
+
+.sd-edge-group[data-active] .sd-edge {
+  stroke: var(--color-accent);
+}
+
+.sd-edge-group[data-active] .sd-arrow {
+  fill: var(--color-accent);
+}
+
+.sd-node .sd-node-box,
+.sd-node .sd-kind,
+.sd-edge-group .sd-edge,
+.sd-edge-group .sd-arrow {
   transition:
-    filter 700ms cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
-    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    stroke 200ms ease,
+    fill 200ms ease;
 }
 
-.section-unveil.is-unveiled {
-  filter: none;
-  opacity: 1;
-  transform: none;
-}
+/* ---------- Route wipe ---------- */
 
-.hero-glow {
-  background: radial-gradient(
-    58% 58% at 18% 0%,
-    color-mix(in srgb, var(--color-accent) var(--glow-strength), transparent) 0%,
-    transparent 68%
-  );
-}
-
-@keyframes hero-rise {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.hero-rise {
-  animation: hero-rise 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: var(--delay, 0ms);
-}
-
-.deck-card {
-  --deck-spread: 28px;
-  --deck-tilt: 3.5deg;
-  z-index: calc(20 - abs(var(--i)));
-  transform: translateX(calc(var(--i) * var(--deck-spread)))
-    translateY(calc(abs(var(--i)) * 10px)) rotate(calc(var(--i) * var(--deck-tilt)))
-    scale(calc(1 - abs(var(--i)) * 0.05));
-  transition:
-    transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 320ms ease;
-}
-
-.deck-card.is-active {
-  z-index: 30;
-}
-
-.deck-card.is-side {
-  opacity: 0.55;
-}
-
-.deck-card.is-side:hover,
-.deck-card.is-side:focus-within {
-  opacity: 1;
-}
-
-.deck-card-face {
-  transform-origin: center center;
-  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.deck-card.is-active .deck-card-face:hover,
-.deck-card.is-active .deck-card-face:focus-visible {
-  transform: scale(1.045);
-}
-
-.deck-card.is-side .deck-card-face:hover,
-.deck-card.is-side .deck-card-face:focus-visible {
-  transform: scale(1.045);
-}
-
-@media (min-width: 768px) {
-  .deck-card {
-    --deck-spread: 40px;
-    --deck-tilt: 4deg;
-  }
-}
-
-@media (min-width: 1024px) {
-  .deck-card {
-    --deck-spread: 52px;
-    --deck-tilt: 4.5deg;
-  }
+.route-wipe {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  background: var(--color-surface);
+  border-right: 1px solid var(--color-accent);
+  transform-origin: right center;
+  transform: scaleX(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
   *,
   *::before,
   *::after {
@@ -301,17 +410,8 @@ body {
     scroll-behavior: auto !important;
   }
 
-  .section-unveil {
-    filter: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-
-  .deck-card.is-active .deck-card-face:hover,
-  .deck-card.is-active .deck-card-face:focus-visible,
-  .deck-card.is-side .deck-card-face:hover,
-  .deck-card.is-side .deck-card-face:focus-visible {
-    transform: none !important;
+  .route-wipe {
+    display: none;
   }
 
   :root[data-theme-anim] *,

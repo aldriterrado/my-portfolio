@@ -1,4 +1,5 @@
 import trainlogScreenshot from "../assets/photo/project/bbr-trainlog.png"
+import { diagrams, type SystemDiagram } from "./diagrams"
 
 export type CaseStudySection = {
   title: string
@@ -18,8 +19,9 @@ export type Project = {
   imageCaption?: string
   year: string
   kind: string
+  /** Two-letter code, shown as the case-study document code (CS-AF). */
   monogram: string
-  accent: string
+  diagram: SystemDiagram
   featured: boolean
   caseStudy: {
     summary: string
@@ -32,8 +34,9 @@ export const projects: Project[] = [
     slug: "assetflow",
     title: "AssetFlow",
     subtitle: "IT Asset & Operations Management Platform",
+    // DRAFT copy
     summary:
-      "A centralized platform for managing hardware, software, services, assignments, requisitions, purchases, audits and lifecycle information across the business.",
+      "The system of record for IT assets, requisitions, purchases and audits, replacing spreadsheets and chat threads with one connected history.",
     role: "Product Design, Full-stack Development, System Architecture",
     platform: "Internal Enterprise System",
     stack: ["React", "TypeScript", "Supabase", "PostgreSQL"],
@@ -42,7 +45,7 @@ export const projects: Project[] = [
     year: "2025",
     kind: "Internal Platform",
     monogram: "AF",
-    accent: "#5b8cff",
+    diagram: diagrams.assetflow,
     featured: true,
     caseStudy: {
       summary:
@@ -113,8 +116,9 @@ export const projects: Project[] = [
     title: "BBR TrainLog",
     subtitle:
       "Employee training, qualifications, and study bonds in one connected system",
+    // DRAFT copy
     summary:
-      "A connected system for employee training across BBR organizations, linking registrations, schedules, costs, credentials, renewals, and study bonds.",
+      "Training, credentials, renewals and study bonds for every BBR organisation in one system, with Microsoft 365 sign-in and authorization enforced in Postgres.",
     role: "Full-stack Development, Product Design",
     platform: "Internal Enterprise Web Application",
     stack: [
@@ -131,7 +135,7 @@ export const projects: Project[] = [
     year: "2025",
     kind: "Internal Platform",
     monogram: "TL",
-    accent: "#6ee7b7",
+    diagram: diagrams["training-management"],
     featured: true,
     caseStudy: {
       summary:
@@ -213,8 +217,9 @@ export const projects: Project[] = [
     title: "BBR Virtual Business Card",
     subtitle:
       "Digital business cards, approvals, and contact sharing in one managed system",
+    // DRAFT copy
     summary:
-      "A centrally managed digital identity that employees can share through a link or QR code, with approval, activation, and card lifecycle control.",
+      "Digital business cards with email-link approvals, admin activation and QR sharing, hosted on-prem with a Supabase backend.",
     role: "Full-stack Development, Product Design, Deployment & Operations",
     platform: "Internal Employee & Public-Facing Web Application",
     stack: [
@@ -233,7 +238,7 @@ export const projects: Project[] = [
     year: "2025",
     kind: "Internal Platform",
     monogram: "VC",
-    accent: "#fb923c",
+    diagram: diagrams["virtual-business-card"],
     featured: true,
     caseStudy: {
       summary:
@@ -325,8 +330,9 @@ export const projects: Project[] = [
     slug: "billo",
     title: "Billo",
     subtitle: "E-Sign and document workflow",
+    // DRAFT copy
     summary:
-      "An internal workflow for preparing, circulating and tracking documents that need signature, so status is visible without chasing threads.",
+      "Routes documents for review and signature, and keeps their status and audit trail on the record instead of in email threads.",
     role: "Full-stack Development",
     platform: "Internal Workflow Tool",
     stack: ["React", "TypeScript", "Node.js"],
@@ -335,7 +341,7 @@ export const projects: Project[] = [
     year: "2024",
     kind: "Internal Workflow",
     monogram: "BL",
-    accent: "#f0abfc",
+    diagram: diagrams.billo,
     featured: false,
     caseStudy: {
       summary:
@@ -405,8 +411,9 @@ export const projects: Project[] = [
     slug: "file-gateway",
     title: "File Gateway",
     subtitle: "Controlled file intake and delivery",
+    // DRAFT copy
     summary:
-      "A gateway for receiving, organizing and handing off operational files without relying on unmanaged shared folders.",
+      "Controlled intake and handoff for operational files: every transfer is recorded, and access to the NAS goes through one service.",
     role: "System Architecture, Full-stack Development",
     platform: "Internal Infrastructure Tool",
     stack: ["React", "TypeScript", "Node.js"],
@@ -415,7 +422,7 @@ export const projects: Project[] = [
     year: "2024",
     kind: "Infrastructure Tool",
     monogram: "FG",
-    accent: "#fbbf24",
+    diagram: diagrams["file-gateway"],
     featured: false,
     caseStudy: {
       summary:

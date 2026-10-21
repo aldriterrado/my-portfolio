@@ -1,6 +1,5 @@
 import { useEffect, useId, useRef, useState } from "react"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { MenuIcon, XIcon } from "lucide-react"
 import { navLinks, site } from "../../data/site"
 import { ThemeToggle } from "../ui/ThemeToggle"
 import { Container } from "./Container"
@@ -11,20 +10,12 @@ function hashFromHref(href: string) {
 }
 
 export function Header() {
-  const [isScrolled, setIsScrolled] = useState(false)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const menuId = useId()
   const menuButtonRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLDivElement>(null)
   const location = useLocation()
   const navigate = useNavigate()
-
-  useEffect(() => {
-    const onScroll = () => setIsScrolled(window.scrollY > 16)
-    onScroll()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [])
 
   useEffect(() => {
     setIsMenuOpen(false)
@@ -85,134 +76,134 @@ export function Header() {
     section?.scrollIntoView({ behavior: "smooth" })
   }
 
-  return (
-    <header className="fixed top-0 right-0 left-0 z-50">
-      <div
-        className={`border-b transition-[background-color,border-color] duration-300 ${
-          isScrolled
-            ? "border-line bg-base/80"
-            : "border-transparent bg-transparent"
-        }`}
+  const isCurrent = (href: string) =>
+    !href.includes("#") && location.pathname.startsWith(href)
+
+  const navItem = (item: (typeof navLinks)[number], mobile: boolean) => {
+    const className = mobile
+      ? "flex w-full items-baseline gap-4 border-b border-line py-4 text-left text-[20px] text-primary-text"
+      : `group flex items-baseline gap-1.5 text-[14px] transition-colors duration-200 hover:text-primary-text ${
+          isCurrent(item.href) ? "text-primary-text" : "text-secondary-text"
+        }`
+    const content = (
+      <>
+        <span
+          className={`font-mono text-muted transition-colors duration-200 group-hover:text-accent-text ${
+            mobile ? "w-8 text-[12px]" : "text-[11px]"
+          }`}
+        >
+          {item.n}
+        </span>
+        {item.label}
+      </>
+    )
+
+    if (item.href.includes("#")) {
+      return (
+        <button
+          key={item.href}
+          type="button"
+          onClick={() => goToSection(item.href)}
+          className={className}
+        >
+          {content}
+        </button>
+      )
+    }
+
+    return (
+      <Link
+        key={item.href}
+        to={item.href}
+        aria-current={isCurrent(item.href) ? "page" : undefined}
+        className={className}
+        onClick={() => setIsMenuOpen(false)}
       >
-        {isScrolled ? (
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 -z-10 backdrop-blur-md"
-          />
-        ) : null}
-        <Container>
-          <div className="flex h-16 items-center justify-between">
-            <Link
-              to="/"
-              className="text-[15px] font-medium tracking-[-0.02em] text-primary-text"
-            >
+        {content}
+      </Link>
+    )
+  }
+
+  return (
+    <header className="fixed top-0 right-0 left-0 z-50 border-b border-line bg-base">
+      <Container>
+        <div className="flex h-14 items-center gap-6">
+          <Link
+            to="/"
+            className="group flex shrink-0 items-center gap-2.5 text-primary-text"
+          >
+            <span
+              aria-hidden="true"
+              className="size-2.5 bg-accent transition-transform duration-300 group-hover:rotate-45"
+            />
+            <span className="text-[15px] font-medium tracking-[-0.01em]">
               {site.name}
-            </Link>
+            </span>
+            <span className="hidden font-mono text-[11px] text-muted lg:inline">
+              {site.doc.id}
+            </span>
+          </Link>
 
-            <nav className="hidden items-center gap-8 md:flex" aria-label="Primary">
-              {navLinks.map((item) =>
-                item.href.includes("#") ? (
-                  <button
-                    key={item.href}
-                    type="button"
-                    onClick={() => goToSection(item.href)}
-                    className="text-[14px] text-secondary-text transition-colors duration-200 hover:text-primary-text"
-                  >
-                    {item.label}
-                  </button>
-                ) : (
-                  <Link
-                    key={item.href}
-                    to={item.href}
-                    className="text-[14px] text-secondary-text transition-colors duration-200 hover:text-primary-text"
-                  >
-                    {item.label}
-                  </Link>
-                ),
-              )}
-              <a
-                href={site.resume}
-                className="text-[14px] text-secondary-text transition-colors duration-200 hover:text-primary-text"
-              >
-                Resume
-              </a>
-              <button
-                type="button"
-                onClick={() => goToSection("/#contact")}
-                className="text-[14px] text-primary-text transition-colors duration-200 hover:text-accent"
-              >
-                Contact →
-              </button>
-              <ThemeToggle />
-            </nav>
+          <span aria-hidden="true" className="leader hidden md:block" />
 
-            <div className="flex items-center gap-1 md:hidden">
-              <ThemeToggle className="p-2" />
-              <button
-                ref={menuButtonRef}
-                type="button"
-                className="p-2 text-primary-text"
-                aria-expanded={isMenuOpen}
-                aria-controls={menuId}
-                aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                onClick={() => setIsMenuOpen((open) => !open)}
-              >
-                {isMenuOpen ? <XIcon size={20} /> : <MenuIcon size={20} />}
-              </button>
-            </div>
-          </div>
-        </Container>
-      </div>
+          <nav className="hidden items-center gap-6 md:flex" aria-label="Primary">
+            {navLinks.map((item) => navItem(item, false))}
+            <a
+              href={site.resume}
+              className="text-[14px] text-secondary-text transition-colors duration-200 hover:text-primary-text"
+            >
+              Résumé <span aria-hidden="true" className="font-mono text-[12px]">↓</span>
+            </a>
+            <ThemeToggle />
+          </nav>
+
+          <button
+            ref={menuButtonRef}
+            type="button"
+            className="-mr-2 ml-auto flex h-11 items-center gap-2 px-2 font-mono text-[12px] tracking-[0.06em] text-primary-text uppercase md:hidden"
+            aria-expanded={isMenuOpen}
+            aria-controls={menuId}
+            onClick={() => setIsMenuOpen((open) => !open)}
+          >
+            {isMenuOpen ? "Close" : "Menu"}
+            <span aria-hidden="true" className="relative block h-2.5 w-4">
+              <span
+                className={`absolute inset-x-0 top-0 h-px bg-current transition-transform duration-200 ${
+                  isMenuOpen ? "translate-y-[5px] rotate-45" : ""
+                }`}
+              />
+              <span
+                className={`absolute inset-x-0 bottom-0 h-px bg-current transition-transform duration-200 ${
+                  isMenuOpen ? "-translate-y-[4px] -rotate-45" : ""
+                }`}
+              />
+            </span>
+          </button>
+        </div>
+      </Container>
 
       {isMenuOpen ? (
         <div
           id={menuId}
           ref={panelRef}
-          className="absolute inset-x-0 top-full z-40 h-[calc(100dvh-4rem)] bg-base md:hidden"
+          className="absolute inset-x-0 top-full z-40 h-[calc(100dvh-3.5rem)] overflow-y-auto bg-base md:hidden"
         >
           <nav
-            className="container-page flex flex-col gap-1 pt-6"
+            className="container-page flex flex-col pt-4 pb-10"
             aria-label="Mobile"
           >
-            {navLinks.map((item) =>
-              item.href.includes("#") ? (
-                <button
-                  key={item.href}
-                  type="button"
-                  onClick={() => goToSection(item.href)}
-                  className="rounded-[10px] px-3 py-3 text-left text-[17px] text-primary-text hover:bg-surface"
-                >
-                  {item.label}
-                </button>
-              ) : (
-                <Link
-                  key={item.href}
-                  to={item.href}
-                  className="rounded-[10px] px-3 py-3 text-[17px] text-primary-text hover:bg-surface"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ),
-            )}
+            {navLinks.map((item) => navItem(item, true))}
             <a
               href={site.resume}
-              className="rounded-[10px] px-3 py-3 text-[17px] text-primary-text hover:bg-surface"
+              className="flex items-baseline gap-4 border-b border-line py-4 text-[20px] text-primary-text"
             >
-              Resume
+              <span className="w-8 font-mono text-[12px] text-muted">↓</span>
+              Résumé
             </a>
-            <button
-              type="button"
-              onClick={() => goToSection("/#contact")}
-              className="rounded-[10px] px-3 py-3 text-left text-[17px] text-primary-text hover:bg-surface"
-            >
-              Contact →
-            </button>
-            <span aria-hidden="true" className="mt-2 h-px bg-line" />
-            <ThemeToggle
-              showLabel
-              className="rounded-[10px] px-3 py-3 text-[17px] hover:bg-surface"
-            />
+            <div className="mt-8 flex items-center justify-between font-mono text-[11px] tracking-[0.06em] text-muted uppercase">
+              <span>Theme</span>
+              <ThemeToggle className="[&_button]:min-h-11 [&_button]:px-4" />
+            </div>
           </nav>
         </div>
       ) : null}

@@ -1,33 +1,42 @@
-import { MoonIcon, SunIcon } from "lucide-react"
 import { useTheme } from "../../theme/context"
 
 type ThemeToggleProps = {
   className?: string
-  showLabel?: boolean
 }
 
-export function ThemeToggle({
-  className = "",
-  showLabel = false,
-}: ThemeToggleProps) {
-  const { theme, toggleTheme } = useTheme()
-  const isDark = theme === "dark"
-  const label = isDark ? "Switch to light mode" : "Switch to dark mode"
-  const tone = showLabel
-    ? "text-primary-text"
-    : "text-secondary-text hover:text-primary-text"
+const options = [
+  { value: "light", label: "Paper", description: "Light theme" },
+  { value: "dark", label: "Carbon", description: "Dark theme" },
+] as const
+
+export function ThemeToggle({ className = "" }: ThemeToggleProps) {
+  const { theme, setTheme } = useTheme()
 
   return (
-    <button
-      type="button"
-      onClick={toggleTheme}
-      aria-label={showLabel ? undefined : label}
-      aria-pressed={isDark}
-      title={label}
-      className={`inline-flex items-center gap-3 transition-colors duration-200 ${tone} ${className}`.trim()}
+    <div
+      role="group"
+      aria-label="Theme"
+      className={`inline-flex border border-line font-mono text-[11px] tracking-[0.06em] uppercase ${className}`.trim()}
     >
-      {isDark ? <SunIcon size={18} /> : <MoonIcon size={18} />}
-      {showLabel ? <span>{isDark ? "Light mode" : "Dark mode"}</span> : null}
-    </button>
+      {options.map((option) => {
+        const active = theme === option.value
+        return (
+          <button
+            key={option.value}
+            type="button"
+            aria-pressed={active}
+            title={option.description}
+            onClick={() => setTheme(option.value)}
+            className={`px-2.5 py-1.5 transition-colors duration-200 ${
+              active
+                ? "bg-primary-text text-surface"
+                : "text-muted hover:text-primary-text"
+            }`}
+          >
+            {option.label}
+          </button>
+        )
+      })}
+    </div>
   )
 }
