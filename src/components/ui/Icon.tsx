@@ -10,6 +10,7 @@ type IconName =
   | "moon"
   | "copy"
   | "check"
+  | "play"
 
 const paths: Record<IconName, string> = {
   "arrow-right": "M4 12h15m-6-6 6 6-6 6",
@@ -21,6 +22,7 @@ const paths: Record<IconName, string> = {
   moon: "M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z",
   copy: "M9 9h10v10H9zM5 15V5h10",
   check: "m5 12.5 4.5 4.5L19 7.5",
+  play: "M8 5.5v13l10.5-6.5L8 5.5Z",
 }
 
 type IconProps = SVGProps<SVGSVGElement> & { name: IconName; size?: number }

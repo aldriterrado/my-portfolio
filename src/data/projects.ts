@@ -16,6 +16,8 @@ export type Project = {
   image: string | null
   imageHint: string
   imageCaption?: string
+  /** YouTube link; replaces the cover on the case study page. */
+  video?: string
   year: string
   kind: string
   /** Two-letter code, set large on the typographic cover. */
@@ -42,6 +44,7 @@ export const projects: Project[] = [
     stack: ["React", "TypeScript", "Supabase", "PostgreSQL"],
     image: null,
     imageHint: "assetflow.png",
+    video: "https://www.youtube.com/watch?v=OBp-yWPavgw",
     year: "2025",
     kind: "Internal Platform",
     monogram: "AF",

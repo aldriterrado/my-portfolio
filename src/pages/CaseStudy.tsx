@@ -3,6 +3,7 @@ import { Link, Navigate, useParams } from "react-router-dom"
 import { Container } from "../components/layout/Container"
 import { Icon } from "../components/ui/Icon"
 import { ProjectCover } from "../components/ui/ProjectCover"
+import { ProjectVideo } from "../components/ui/ProjectVideo"
 import { Reveal } from "../components/ui/Reveal"
 import { TextLink } from "../components/ui/TextLink"
 import {
@@ -19,6 +20,7 @@ import { useGSAP } from "../lib/gsap"
 import { padIndex } from "../lib/motion"
 import { ScrollTrigger } from "../lib/scrollTrigger"
 import { scrollToId } from "../lib/smoothScroll"
+import { getYouTubeId } from "../lib/youtube"
 
 // "Name: description" items become a numbered feature grid.
 const FEATURE_PATTERN = /^([^:]{3,40}):\s+(.+)$/
@@ -124,6 +126,7 @@ function CaseStudyPage({ slug }: { slug: string | undefined }) {
   const { next } = getAdjacentProjects(project.slug)
   const following = next ?? projects[0]
   const { sections } = project.caseStudy
+  const videoId = project.video ? getYouTubeId(project.video) : null
 
   const specs = [
     { label: "Role", value: project.role },
@@ -187,13 +190,17 @@ function CaseStudyPage({ slug }: { slug: string | undefined }) {
       </header>
 
       <Container className="mt-14 md:mt-20">
-        <ProjectCover
-          project={project}
-          priority
-          alt={project.imageCaption ?? `${project.title} interface`}
-          className="aspect-[4/3] md:aspect-[16/9]"
-        />
-        {project.image && project.imageCaption ? (
+        {videoId ? (
+          <ProjectVideo videoId={videoId} title={project.title} />
+        ) : (
+          <ProjectCover
+            project={project}
+            priority
+            alt={project.imageCaption ?? `${project.title} interface`}
+            className="aspect-[4/3] md:aspect-[16/9]"
+          />
+        )}
+        {(videoId || project.image) && project.imageCaption ? (
           <p className="eyebrow mt-4">{project.imageCaption}</p>
         ) : null}
       </Container>
